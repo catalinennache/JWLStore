@@ -3,10 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-
+use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use App\User;
 
+use Illuminate\Support\Facades\Auth;
 class ShopController extends Controller
 {
     /**
@@ -15,6 +17,16 @@ class ShopController extends Controller
      * @param  int  $id
      * @return View
      */
+
+    function __construct(){
+       // $this->middleware('auth');
+    }
+
+    public function index(Request $req){
+        $products = DB::table('Products')->get();
+        return view('originalhome')->with(['products'=>$products]);
+    }
+
     public function shop(Request $req)
     {
         return view('shop');
@@ -46,12 +58,63 @@ class ShopController extends Controller
     }
 
     public function login(Request $req){
-        
-        return view("login");
+        if(!Auth::user())
+            return view("login");
+            else
+            return redirect()->intended('');
     }
 
     public function register(Request $req){
-        
+       
         return view("register");
+    }
+
+    public function login_post(Request $req){
+        $arr = array();
+        $arr["email"]=$req->email;
+        $arr["password"]=$req->password;
+        $pass = $req->pass;
+        if(Auth::attempt($arr)){
+            
+            return response()->json(['success'=> !!Auth::user()]);
+        } else{
+            return response()->json(['success'=> !!Auth::user(),'err' => ' user not found ']);
+        }
+
+        
+    }
+    public function delete_user(Request $req){
+        Auth::user()->delete();
+        //Auth::logout();
+        return redirect()->intended('');
+    }
+    public function register_post(Request $req){
+        $arr = array();
+        $arr["email"]=$req->email;
+        $arr["name"]=$req->name;
+        $pass = $req->pass;
+        $cpass = $req->cpass;
+        if($pass === $cpass){
+            $arr["password"] = $pass;
+            $customer = Customer::create($arr);
+            if(Auth::attempt($customer)){
+                return redirect()->intended('');
+            }
+        }
+    }
+
+    public function logout(Request $req){
+        Auth::logout();
+        return redirect()->intended('');
+    }
+    private function create_session_schema(){
+        Schema::create('sessions', function ($table) {
+            $table->string('id')->unique();
+            $table->unsignedInteger('user_id')->nullable();
+            $table->string('ip_address', 45)->nullable();
+            $table->text('user_agent')->nullable();
+            $table->text('payload');
+            $table->integer('last_activity');
+        });
     }
 }

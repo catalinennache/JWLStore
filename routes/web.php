@@ -11,9 +11,9 @@
 |
 */
 
-Route::get('/', function () {
-    return view('home');
-});
+
+
+Route::get('/','ShopController@index');
 Route::get('/shop','ShopController@shop');
 
 Route::get('/cart','ShopController@cart');
@@ -25,7 +25,13 @@ Route::get('/shops','ShopController@shops');
 Route::get('/about','ShopController@about');
 
 Route::get('/thank','ShopController@thank');
-Route::get('/login','ShopController@login');
+//Route::get('/login','ShopController@login');
+//Route::post('/login','ShopController@login_post');
 
-Route::get('/register','ShopController@register');
+Route::get('/logout','ShopController@logout');
+//Route::get('/register','ShopController@register');
+Route::get('/delete','ShopController@delete_user');
 
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
