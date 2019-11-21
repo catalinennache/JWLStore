@@ -37,16 +37,7 @@
           </form>  
         </div>
       </div>
-      <style>
-            .dapper{
-                padding: 10px 10px;
-            text-transform: uppercase;
-            letter-spacing: .05em;
-            color: #25262a;
-            font-size: 15px;
-            text-decoration: none !important;
-            }
-        </style>
+    
       <div class="container">
         <div class="d-flex align-items-center justify-content-between">
           <div class="logo">
@@ -57,38 +48,37 @@
           <div class="main-nav d-none d-lg-block">
             <nav class="site-navigation text-right text-md-center" role="navigation">
               <ul class="site-menu js-clone-nav d-none d-lg-block">
-                <li class="has-children active">
-                  <a href="/">Home</a>
-                  <ul class="dropdown">
-                    <li><a href="#">Menu One</a></li>
-                    <li><a href="#">Menu Two</a></li>
-                    <li><a href="#">Menu Three</a></li>
-                    <li class="has-children">
-                      <a href="#">Sub Menu</a>
+                  <li><a href="#">Home</a></li>
+                  <li class="has-children active">
+                      <a href="/">Catalog</a>
                       <ul class="dropdown">
                         <li><a href="#">Menu One</a></li>
                         <li><a href="#">Menu Two</a></li>
                         <li><a href="#">Menu Three</a></li>
+                        <li class="has-children">
+                          <a href="#">Sub Menu</a>
+                          <ul class="dropdown">
+                            <li><a href="#">Menu One</a></li>
+                            <li><a href="#">Menu Two</a></li>
+                            <li><a href="#">Menu Three</a></li>
+                          </ul>
+                        </li>
                       </ul>
                     </li>
-                  </ul>
-                </li>
+                    <li><a href="/contact">Contact</a></li>
+                @if (Auth::user() == null)
                 
-                <li><a href="/shop">Shop</a></li>
-                <li><a href="#">Catalogue</a></li>
-                <li><a href="#">New Arrivals</a></li>
-                <li><a href="/contact">Contact</a></li>
+                <li><a href="/login" class="icons-btn d-inline-block js ">Login</a></li>
+               <li> <a href="/register" class="icons-btn d-inline-block js ">Register</a></li>
+               @else
+                 <li>  <a href="/profile" class="icons-btn d-inline-block ">{{Auth::user()->name}}</a> </li>
+                 <li> <a href="/logout" class="icons-btn d-inline-block ">Log Out</a></li>
+               @endif
               </ul>
             </nav>
           </div>
           <div class="icons">
-            @if (Auth::user() == null)
-                
-             <a href="/login" class="icons-btn d-inline-block js dapper">Login</a>
-             <a href="/register" class="icons-btn d-inline-block js dapper">Register</a>
-            @else
-                <a href="/profile" class="icons-btn d-inline-block dapper">{{Auth::user()->name}}</a>
-            @endif
+          
            
             <a href="#" class="icons-btn d-inline-block js-search-open"><span class="icon-search"></span></a>
             <a href="/cart" class="icons-btn d-inline-block bag">
@@ -183,7 +173,28 @@
       </div>
     </footer>
   </div>
-
+  <style>
+      .loader {
+        border: 16px solid #f3f3f3;
+        border-radius: 50%;
+        border-top: 16px solid #3498db;
+        width: 120px;
+        height: 120px;
+        -webkit-animation: spin 2s linear infinite; /* Safari */
+        animation: spin 2s linear infinite;
+      }
+      
+      /* Safari */
+      @-webkit-keyframes spin {
+        0% { -webkit-transform: rotate(0deg); }
+        100% { -webkit-transform: rotate(360deg); }
+      }
+      
+      @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+      }
+      </style>
   <script src="js/jquery-3.3.1.min.js"></script>
   <script src="js/jquery-ui.js"></script>
   <script src="js/popper.min.js"></script>

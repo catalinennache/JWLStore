@@ -1,4 +1,4 @@
-@extends('layouts.base')
+@extends('layouts.base_nofooter')
 
 @section('page_content')
     <div class="site-section">
@@ -71,7 +71,7 @@
   </style>
   
   <script>
-      $('.login').on('click',function(){
+    window.onload = function(){    $('.login').on('click',function(){
           var email = $(this).closest('.form-group').find('input')[0];
           var password = $(this).closest('.form-group').find('input')[1];
           $.ajax({
@@ -87,7 +87,7 @@
               }
             }
           })
-      });
+      });};
     </script>
     @endsection
     

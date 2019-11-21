@@ -1,4 +1,4 @@
-@extends('layouts.base')
+@extends('layouts.base_empty')
 
 @section('page_content')
 
@@ -19,6 +19,7 @@
               <div class="form-group row">
                 <div class="col-md-12">
                   <input type="text" placeholder="Email" class="form-control" id="email" name="email">
+                  <span class="warn email">The email must be a valid email address.</span>
                 </div>
               </div>
 
@@ -78,14 +79,32 @@
             Object.keys(errors).forEach(function(key){
                 if(errors[key].length > 0)
                     errors[key].forEach(function(elem){
-                        console.log(elem);
+                      console.log('.warn.'+key,$('.warn.'+key),$('.warn.'+key).parent())
+                      $('.warn.'+key).parent().addClass('show');
+                      $('.warn.'+key).parent().parent().css('margin-bottom','10px');
                     })
-                    else
-                    console.log(errors[key]);
+                    else{
+                      $('.warn.'+key).parent().addClass('show');
+                    
+                    }
             })
               
           }
         })
     });}
   </script>
+  <style>
+    .warn{
+      display: none;
+    }
+   .show .warn{
+     display: block;
+     color: red;
+     padding:10px;
+     padding-bottom: 0;
+   }
+   .show input{
+     border-color:red;
+   }
+  </style>
   @endsection

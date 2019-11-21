@@ -35,3 +35,5 @@ Route::get('/delete','ShopController@delete_user');
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/profile',"ShopController@profile");
+Route::get('/order',"ShopController@order");

@@ -57,6 +57,9 @@ class ShopController extends Controller
         return view('thankyou');
     }
 
+    public function profile(Request $req){
+        return view('profile');
+    }
     public function login(Request $req){
         if(!Auth::user())
             return view("login");
@@ -67,6 +70,11 @@ class ShopController extends Controller
     public function register(Request $req){
        
         return view("register");
+    }
+
+    public function Order(Request $req){
+
+        return view("order");
     }
 
     public function login_post(Request $req){
