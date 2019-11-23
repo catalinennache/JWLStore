@@ -35,5 +35,6 @@ Route::get('/delete','ShopController@delete_user');
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
-Route::get('/profile',"ShopController@profile");
+Route::get('/profile',"ProfileController@profile");
 Route::get('/order',"ShopController@order");
+Route::post('/api/saveProfile',"ProfileController@saveProfile");
