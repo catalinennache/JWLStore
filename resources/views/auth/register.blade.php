@@ -9,12 +9,7 @@
           <div class="col-md-6 mb-5 mb-md-0" style="margin:0 auto;">
             <h2 class="h3 mb-3 text-black text-center">Express yourself boundless</h2>
             <div class="p-3 p-lg-5 border">
-              
-                <div class="form-group row">
-                    <div class="col-md-12">
-                      <input type="text" placeholder="Name" class="form-control" id="name" name="name">
-                    </div>
-                  </div>
+            
 
               <div class="form-group row">
                 <div class="col-md-12">
@@ -32,8 +27,13 @@
               <div class="form-group row">
                 <div class="col-md-12">
                   <input type="password" placeholder="Password Confirm" class="form-control" id="passc" name="password_confirmation">
+                  <span class="warn password">The password must be at least 6 characters long and  match the confirmation.</span>
+   
                 </div>
+                           
               </div>
+
+             
 
               <div class="form-group">
                 <button class="btn btn-primary btn-lg btn-block register" onclick="">Sign up</button>
@@ -57,7 +57,6 @@
           url:'/register',
           data:{email:$('#email').val(),
                 password:$('#pass').val(),
-                name:$('#name').val(),
                 password_confirmation:$('#passc').val(),
                  _token: "{{ csrf_token() }}",},
           success:function(data){
@@ -103,8 +102,6 @@
      padding:10px;
      padding-bottom: 0;
    }
-   .show input{
-     border-color:red;
-   }
+   
   </style>
   @endsection

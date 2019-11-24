@@ -36,5 +36,5 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/profile',"ProfileController@profile");
-Route::get('/order',"ShopController@order");
+Route::get('/order',"ProfileController@ShowOrder");
 Route::post('/api/saveProfile',"ProfileController@saveProfile");
