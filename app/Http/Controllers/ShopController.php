@@ -38,12 +38,16 @@ class ShopController extends Controller
     }
 
     public function shops(Request $req)
-    {
-        return view('shop-single');
+    {   
+        $products = DB::table('Products')->get();
+        $product_id = $req->id;
+        $prod = DB::table('Products')->where('product_id',$product_id)->first();
+        return view('shop-single')->with(['products'=>$products,'prod'=>$prod]);
     }
 
     public function checkout(Request $req)
-    {
+    {   
+        
         return view('checkout');
     }
 
@@ -124,5 +128,17 @@ class ShopController extends Controller
             $table->text('payload');
             $table->integer('last_activity');
         });
+    }
+
+    function addtocart(Request $req){
+        $prod_id = $req->id;
+        if($prod_id>0 && DB::table('Products')->where('product_id')->get()){
+            $arr_cart_products = $req->session()->has('cart_products')?session('cart_products'):array();
+            array_push($arr_cart_products,$prod_id);
+            $req->session()->put('cart_products', $arr_cart_products);
+            return response()->json(['scs'=>true]);
+        }
+
+        return response()->json(['scs'=>false]);
     }
 }

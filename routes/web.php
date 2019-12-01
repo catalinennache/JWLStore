@@ -38,3 +38,4 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/profile',"ProfileController@profile");
 Route::get('/order',"ProfileController@ShowOrder");
 Route::post('/api/saveProfile',"ProfileController@saveProfile");
+Route::post('/api/addtocart',"ShopController@addtocart");
