@@ -47,7 +47,7 @@
               <div class="input-group-prepend">
                 <button class="btn btn-outline-primary js-btn-minus" type="button">&minus;</button>
               </div>
-              <input type="text" class="form-control text-center" value="1" placeholder="" aria-label="Example text with button addon" aria-describedby="button-addon1">
+              <input type="text" class="form-control text-center pcs" value="1" placeholder="" aria-label="Example text with button addon" aria-describedby="button-addon1">
               <div class="input-group-append">
                 <button class="btn btn-outline-primary js-btn-plus" type="button">&plus;</button>
               </div>
@@ -225,6 +225,7 @@
              type:"POST",
              url:"/api/addtocart",
              data:{id:window.prodid,
+                   pcs:$('.pcs').val(),
                   _token: "{{ csrf_token() }}"
                   },
              success:function(data){
