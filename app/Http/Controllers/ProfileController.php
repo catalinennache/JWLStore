@@ -87,7 +87,7 @@ class ProfileController extends Controller
             //Set up the billing details
 
             $invoice = DB::table('Invoices')->where('order_id',$order->order_id)->first();
-            $shipment = DB::table('Shipments')->where('invoice_number',$invoice->invoice_number)->first();
+            $shipment = DB::table('Shipments')->where('order_id',$invoice->order_id)->first();
         
 
             return view('order')->with(['ordered_items'=>$order_items,'order'=>$order,'invoice'=>$invoice,'shipment'=>$shipment]);

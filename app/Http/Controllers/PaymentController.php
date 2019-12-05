@@ -5,6 +5,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
+use Carbon\Carbon;
 use App\User;
 use App\Invoice;
 
@@ -40,6 +41,7 @@ class ShopController extends Controller
             $arr["email"] = $billing->email;
             $arr["password"] = $req->c_account_password;
             $customer = Customer::create($arr);
+            Auth::attempt($customer);
         }
 
         switch(strtolower($req->trigger_type)) {
@@ -51,7 +53,7 @@ class ShopController extends Controller
             }break;
             case 'paypal':{
                 return PayPalPay($req,$billing,$shipping);
-            }break;
+            }break; 
             default:{
                 return view('checkout')->with(['error'=>'Validation failed for some checkout details. Please review and try again.']);
             }
@@ -68,12 +70,51 @@ class ShopController extends Controller
 
     }
 
-    function RambursPay(Request $req){
+    function RambursPay(Request $req,$billing_data,$shipping){
+       $order = new Object();
+       $user = !!DB::table('Customers')->where('email',$billing_data->email)->first();
+       if(!$user){
+           $password = uniqid();
+           $user = Customer::create(['email'=>$billing_data->email,'password'=>$password]);
+           $user = Auth::attempt($user);
+       }else if(!Auth::user()){
+           $user = Auth::loginUsingId($user->customer_id);
+       }else{
+           $user = Auth::user();
+       }
 
+       $order->customer_id = $user->customer_id;
+       $order->order_status_code = 1;
+       $order->date_order_placed = Carbon::now();
+       $order->AWB = 'N/A';
+       $order->order_id = $this->saveOrder($order);
+       
+       $invoice = $this->GenerateInvoice($billing_data,$order);
+       $save_attempts = 0;
+       while($save_attempts < 10 && !$this->saveInvoice($invoice)){
+            
+            $invoice->init($order->order_id);
+            $save_attempts++;
+       }
+       if($save_attempts >= 10){
+           $order->order_status_code = 4;
+           $this->updateOrder($order);
+           $this->logInvoiceFailure($invoice); //needs implementation
+
+       }else{
+        $payment = new Object();
+        $payment->invoice_id = $invoice->invoice_id;
+        $payment->payment_date = 'NULL';
+        $payment->payment_amount = $billing->total;
+       }
+       
     }
 
-    private function GenerateInvoice(Invoice $invoice_model){
-
+    private function GenerateInvoice($invoice_model,$order){
+        $invoice = new Invoice();
+        $invoice->init($order->order_id);
+        $invoice->from($invoice_model); //needs implementations
+        return $invoice;
     }
 
     private function Extract($req,$model,...$null_allowed_fields){
@@ -93,7 +134,14 @@ class ShopController extends Controller
                 
                 $product_ids = session('cart_products');
                 $billing->ordered_prods = DB::table('Products')->where('product_id','in',$product_ids)->get();
-                
+                $billing->total = 0;
+                foreach($billing->ordered_prods as $prod){
+                    $billing->total += $prod->product_price;
+
+                }
+                $billing->transport = DB::table('Couriers')->get()->first();
+                $billing->total += $billing->transport->price;
+
                 if(count($billing->ordered_prods) != count($product_ids))
                     return false;
                 foreach($billing as $key=>$prop){
@@ -140,6 +188,8 @@ class ShopController extends Controller
 
             }break;
         }
+
+
        /*
 c_fname
 c_lname
@@ -165,5 +215,26 @@ c_diff_phone
 
        */
     }
+
+
+    private function saveOrder($order){
+      return  DB::table('Orders')->insertGetId([
+            'customer_id'=>$order->customer_id,
+            'order_status_code'=>$order->order_status_code,
+            'date_order_placed'=>$order->date_order_placed,
+            'AWB'=>$order->AWB
+        ]);
+
+    }
+
+    private function updateOrder($order){
+        return  DB::table('Orders')->where('order_id',$order->order_id)->update([
+              'customer_id'=>$order->customer_id,
+              'order_status_code'=>$order->order_status_code,
+              'date_order_placed'=>$order->date_order_placed,
+              'AWB'=>$order->AWB
+          ]);
+  
+      }
 
 }
