@@ -42,7 +42,9 @@ class ShopController extends Controller
         $products = DB::table('Products')->get();
         $product_id = $req->id;
         $prod = DB::table('Products')->where('product_id',$product_id)->first();
-        return view('shop-single')->with(['products'=>$products,'prod'=>$prod]);
+        $prod_sizes = DB::table('Product_sizes')->where('product_id',$product_id)->get();
+
+        return view('shop-single')->with(['products'=>$products,'prod'=>$prod,'sizes'=>$prod_sizes]);
     }
 
     
@@ -150,9 +152,14 @@ class ShopController extends Controller
     function addtocart(Request $req){
         $prod_id = $req->id;
         $pcs = $req->pcs;
-        if($prod_id>0 && DB::table('Products')->where('product_id')->get()){
+        $size= $req->size;
+        if($prod_id>0 && DB::table('Products')->where('product_id')->get() 
+            && DB::table('Product_sizes')->where(['product_id'=>$prod_id,'size'=>$size])->first() 
+            && DB::table('Product_sizes')->where(['product_id'=>$prod_id,'size'=>$size])->pluck('Quantity_AV')->first() > 0){
             $arr_cart_products = $req->session()->has('cart_products')?session('cart_products'):array();
-            $arr_cart_products[$prod_id] = (isset($arr_cart_products[$prod_id])?$arr_cart_products[$prod_id]:0) +$pcs;
+            $arr_cart_products[$prod_id] = (isset($arr_cart_products[$prod_id])?$arr_cart_products[$prod_id]:array());
+            $arr_cart_products[$prod_id][$size] = (isset($arr_cart_products[$prod_id][$size])?$arr_cart_products[$prod_id][$size]:0) + $pcs;
+            
             $req->session()->put('cart_products', $arr_cart_products);
             return response()->json(['scs'=>true]);
         }
@@ -162,9 +169,22 @@ class ShopController extends Controller
 
     function removeFromCart(Request $req){
         $id = $req->id;
+        $size = $req->size;
         $cart_product = session('cart_products');
+        unset($cart_product[$id][$size]);
         unset($cart_product[$id]);
         $req->session()->put('cart_products', $cart_product);
         return response()->json(['scs'=>true]);
+    }
+
+    function updateCart(Request $req){
+        $prod_array = $req->data;
+        $cart_product = session('cart_products');
+        foreach($prod_array as $product){
+            $cart_product[$product["id"]][$product["size"]] = $product["pcs"];
+        }
+        $req->session()->put('cart_products', $cart_product);
+        return response()->json(['scs'=>true]);
+
     }
 }

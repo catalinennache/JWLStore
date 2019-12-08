@@ -66,6 +66,7 @@ class ComposerStaticInit1a51156d4d432e5389103a27a653d650
             'Symfony\\Component\\Debug\\' => 24,
             'Symfony\\Component\\CssSelector\\' => 30,
             'Symfony\\Component\\Console\\' => 26,
+            'SeniorProgramming\\FanCourier\\' => 29,
         ),
         'R' => 
         array (
@@ -110,6 +111,7 @@ class ComposerStaticInit1a51156d4d432e5389103a27a653d650
         'F' => 
         array (
             'Fideloper\\Proxy\\' => 16,
+            'FanCourier\\' => 11,
             'Faker\\' => 6,
             'Facade\\Ignition\\' => 16,
             'Facade\\IgnitionContracts\\' => 25,
@@ -129,6 +131,7 @@ class ComposerStaticInit1a51156d4d432e5389103a27a653d650
         ),
         'C' => 
         array (
+            'Curl\\' => 5,
             'Cron\\' => 5,
             'Carbon\\' => 7,
         ),
@@ -249,6 +252,10 @@ class ComposerStaticInit1a51156d4d432e5389103a27a653d650
         array (
             0 => __DIR__ . '/..' . '/symfony/console',
         ),
+        'SeniorProgramming\\FanCourier\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/seniorprogramming/fancourier/src',
+        ),
         'Ramsey\\Uuid\\' => 
         array (
             0 => __DIR__ . '/..' . '/ramsey/uuid/src',
@@ -317,6 +324,10 @@ class ComposerStaticInit1a51156d4d432e5389103a27a653d650
         array (
             0 => __DIR__ . '/..' . '/fideloper/proxy/src',
         ),
+        'FanCourier\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/curier/fancourier/src',
+        ),
         'Faker\\' => 
         array (
             0 => __DIR__ . '/..' . '/fzaninotto/faker/src/Faker',
@@ -356,6 +367,10 @@ class ComposerStaticInit1a51156d4d432e5389103a27a653d650
         'DeepCopy\\' => 
         array (
             0 => __DIR__ . '/..' . '/myclabs/deep-copy/src/DeepCopy',
+        ),
+        'Curl\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/php-curl-class/php-curl-class/src/Curl',
         ),
         'Cron\\' => 
         array (
@@ -412,6 +427,8 @@ class ComposerStaticInit1a51156d4d432e5389103a27a653d650
         'App\\Http\\Controllers\\Auth\\ResetPasswordController' => __DIR__ . '/../..' . '/app/Http/Controllers/Auth/ResetPasswordController.php',
         'App\\Http\\Controllers\\Auth\\VerificationController' => __DIR__ . '/../..' . '/app/Http/Controllers/Auth/VerificationController.php',
         'App\\Http\\Controllers\\Controller' => __DIR__ . '/../..' . '/app/Http/Controllers/Controller.php',
+        'App\\Http\\Controllers\\HomeController' => __DIR__ . '/../..' . '/app/Http/Controllers/HomeController.php',
+        'App\\Http\\Controllers\\ProfileController' => __DIR__ . '/../..' . '/app/Http/Controllers/ProfileController.php',
         'App\\Http\\Controllers\\ShopController' => __DIR__ . '/../..' . '/app/Http/Controllers/ShopController.php',
         'App\\Http\\Kernel' => __DIR__ . '/../..' . '/app/Http/Kernel.php',
         'App\\Http\\Middleware\\Authenticate' => __DIR__ . '/../..' . '/app/Http/Middleware/Authenticate.php',
@@ -421,6 +438,7 @@ class ComposerStaticInit1a51156d4d432e5389103a27a653d650
         'App\\Http\\Middleware\\TrimStrings' => __DIR__ . '/../..' . '/app/Http/Middleware/TrimStrings.php',
         'App\\Http\\Middleware\\TrustProxies' => __DIR__ . '/../..' . '/app/Http/Middleware/TrustProxies.php',
         'App\\Http\\Middleware\\VerifyCsrfToken' => __DIR__ . '/../..' . '/app/Http/Middleware/VerifyCsrfToken.php',
+        'App\\Invoice' => __DIR__ . '/../..' . '/app/Invoice.php',
         'App\\Providers\\AppServiceProvider' => __DIR__ . '/../..' . '/app/Providers/AppServiceProvider.php',
         'App\\Providers\\AuthServiceProvider' => __DIR__ . '/../..' . '/app/Providers/AuthServiceProvider.php',
         'App\\Providers\\BroadcastServiceProvider' => __DIR__ . '/../..' . '/app/Providers/BroadcastServiceProvider.php',
@@ -470,6 +488,11 @@ class ComposerStaticInit1a51156d4d432e5389103a27a653d650
         'Cron\\HoursField' => __DIR__ . '/..' . '/dragonmantank/cron-expression/src/Cron/HoursField.php',
         'Cron\\MinutesField' => __DIR__ . '/..' . '/dragonmantank/cron-expression/src/Cron/MinutesField.php',
         'Cron\\MonthField' => __DIR__ . '/..' . '/dragonmantank/cron-expression/src/Cron/MonthField.php',
+        'Curl\\ArrayUtil' => __DIR__ . '/..' . '/php-curl-class/php-curl-class/src/Curl/ArrayUtil.php',
+        'Curl\\CaseInsensitiveArray' => __DIR__ . '/..' . '/php-curl-class/php-curl-class/src/Curl/CaseInsensitiveArray.php',
+        'Curl\\Curl' => __DIR__ . '/..' . '/php-curl-class/php-curl-class/src/Curl/Curl.php',
+        'Curl\\Decoder' => __DIR__ . '/..' . '/php-curl-class/php-curl-class/src/Curl/Decoder.php',
+        'Curl\\MultiCurl' => __DIR__ . '/..' . '/php-curl-class/php-curl-class/src/Curl/MultiCurl.php',
         'DatabaseSeeder' => __DIR__ . '/../..' . '/database/seeds/DatabaseSeeder.php',
         'DeepCopy\\DeepCopy' => __DIR__ . '/..' . '/myclabs/deep-copy/src/DeepCopy/DeepCopy.php',
         'DeepCopy\\Exception\\CloneException' => __DIR__ . '/..' . '/myclabs/deep-copy/src/DeepCopy/Exception/CloneException.php',
@@ -1149,6 +1172,34 @@ class ComposerStaticInit1a51156d4d432e5389103a27a653d650
         'Faker\\Provider\\zh_TW\\Text' => __DIR__ . '/..' . '/fzaninotto/faker/src/Faker/Provider/zh_TW/Text.php',
         'Faker\\UniqueGenerator' => __DIR__ . '/..' . '/fzaninotto/faker/src/Faker/UniqueGenerator.php',
         'Faker\\ValidGenerator' => __DIR__ . '/..' . '/fzaninotto/faker/src/Faker/ValidGenerator.php',
+        'FanCourier\\Endpoint\\Endpoint' => __DIR__ . '/..' . '/curier/fancourier/src/Endpoint/Endpoint.php',
+        'FanCourier\\Endpoint\\Localitati' => __DIR__ . '/..' . '/curier/fancourier/src/Endpoint/Localitati.php',
+        'FanCourier\\Endpoint\\Observatii' => __DIR__ . '/..' . '/curier/fancourier/src/Endpoint/Observatii.php',
+        'FanCourier\\Endpoint\\Price' => __DIR__ . '/..' . '/curier/fancourier/src/Endpoint/Price.php',
+        'FanCourier\\Endpoint\\Servicii' => __DIR__ . '/..' . '/curier/fancourier/src/Endpoint/Servicii.php',
+        'FanCourier\\Endpoint\\Strazi' => __DIR__ . '/..' . '/curier/fancourier/src/Endpoint/Strazi.php',
+        'FanCourier\\Endpoint\\awbErrors' => __DIR__ . '/..' . '/curier/fancourier/src/Endpoint/awbErrors.php',
+        'FanCourier\\Endpoint\\awbGenerator' => __DIR__ . '/..' . '/curier/fancourier/src/Endpoint/awbGenerator.php',
+        'FanCourier\\Endpoint\\awbUrmarire' => __DIR__ . '/..' . '/curier/fancourier/src/Endpoint/awbUrmarire.php',
+        'FanCourier\\Endpoint\\deleteAwb' => __DIR__ . '/..' . '/curier/fancourier/src/Endpoint/deleteAwb.php',
+        'FanCourier\\Endpoint\\endpointInterface' => __DIR__ . '/..' . '/curier/fancourier/src/Endpoint/endpointInterface.php',
+        'FanCourier\\Endpoint\\endpointManager' => __DIR__ . '/..' . '/curier/fancourier/src/Endpoint/endpointManager.php',
+        'FanCourier\\Endpoint\\endpointManagerInterface' => __DIR__ . '/..' . '/curier/fancourier/src/Endpoint/endpointManagerInterface.php',
+        'FanCourier\\Endpoint\\exportBorderou' => __DIR__ . '/..' . '/curier/fancourier/src/Endpoint/exportBorderou.php',
+        'FanCourier\\Endpoint\\exportOrders' => __DIR__ . '/..' . '/curier/fancourier/src/Endpoint/exportOrders.php',
+        'FanCourier\\Endpoint\\exportTransfers' => __DIR__ . '/..' . '/curier/fancourier/src/Endpoint/exportTransfers.php',
+        'FanCourier\\Endpoint\\finalizareBorderou' => __DIR__ . '/..' . '/curier/fancourier/src/Endpoint/finalizareBorderou.php',
+        'FanCourier\\Endpoint\\newOrder' => __DIR__ . '/..' . '/curier/fancourier/src/Endpoint/newOrder.php',
+        'FanCourier\\Endpoint\\paramError' => __DIR__ . '/..' . '/curier/fancourier/src/Endpoint/paramError.php',
+        'FanCourier\\Endpoint\\printAwb' => __DIR__ . '/..' . '/curier/fancourier/src/Endpoint/printAwb.php',
+        'FanCourier\\Endpoint\\scanAwb' => __DIR__ . '/..' . '/curier/fancourier/src/Endpoint/scanAwb.php',
+        'FanCourier\\Plugin\\Curl' => __DIR__ . '/..' . '/curier/fancourier/src/Plugin/Curl.php',
+        'FanCourier\\Plugin\\Exeption\\fcApiExeption' => __DIR__ . '/..' . '/curier/fancourier/src/Plugin/Exeption/fcApiExeption.php',
+        'FanCourier\\Plugin\\csv\\csvGenerator' => __DIR__ . '/..' . '/curier/fancourier/src/Plugin/csv/csvGenerator.php',
+        'FanCourier\\Plugin\\csv\\csvItem' => __DIR__ . '/..' . '/curier/fancourier/src/Plugin/csv/csvItem.php',
+        'FanCourier\\Plugin\\csv\\csvMapping' => __DIR__ . '/..' . '/curier/fancourier/src/Plugin/csv/csvMapping.php',
+        'FanCourier\\Plugin\\csv\\csvResult' => __DIR__ . '/..' . '/curier/fancourier/src/Plugin/csv/csvResult.php',
+        'FanCourier\\fanCourier' => __DIR__ . '/..' . '/curier/fancourier/src/fanCourier.php',
         'Fideloper\\Proxy\\TrustProxies' => __DIR__ . '/..' . '/fideloper/proxy/src/TrustProxies.php',
         'Fideloper\\Proxy\\TrustedProxyServiceProvider' => __DIR__ . '/..' . '/fideloper/proxy/src/TrustedProxyServiceProvider.php',
         'Hamcrest\\Arrays\\IsArray' => __DIR__ . '/..' . '/hamcrest/hamcrest-php/hamcrest/Hamcrest/Arrays/IsArray.php',
@@ -3424,6 +3475,17 @@ class ComposerStaticInit1a51156d4d432e5389103a27a653d650
         'SebastianBergmann\\Type\\UnknownType' => __DIR__ . '/..' . '/sebastian/type/src/UnknownType.php',
         'SebastianBergmann\\Type\\VoidType' => __DIR__ . '/..' . '/sebastian/type/src/VoidType.php',
         'SebastianBergmann\\Version' => __DIR__ . '/..' . '/sebastian/version/src/Version.php',
+        'SeniorProgramming\\FanCourier\\Core\\Base' => __DIR__ . '/..' . '/seniorprogramming/fancourier/src/Core/Base.php',
+        'SeniorProgramming\\FanCourier\\Core\\BaseInterface' => __DIR__ . '/..' . '/seniorprogramming/fancourier/src/Core/BaseInterface.php',
+        'SeniorProgramming\\FanCourier\\Core\\Endpoint' => __DIR__ . '/..' . '/seniorprogramming/fancourier/src/Core/Endpoint.php',
+        'SeniorProgramming\\FanCourier\\Core\\EndpointInterface' => __DIR__ . '/..' . '/seniorprogramming/fancourier/src/Core/EndpointInterface.php',
+        'SeniorProgramming\\FanCourier\\Exceptions\\FanCourierInstanceException' => __DIR__ . '/..' . '/seniorprogramming/fancourier/src/Exceptions/FanCourierInstanceException.php',
+        'SeniorProgramming\\FanCourier\\Exceptions\\FanCourierInvalidParamException' => __DIR__ . '/..' . '/seniorprogramming/fancourier/src/Exceptions/FanCourierInvalidParamException.php',
+        'SeniorProgramming\\FanCourier\\Exceptions\\FanCourierUnknownModelException' => __DIR__ . '/..' . '/seniorprogramming/fancourier/src/Exceptions/FanCourierUnknownModelException.php',
+        'SeniorProgramming\\FanCourier\\Facades\\FanCourier' => __DIR__ . '/..' . '/seniorprogramming/fancourier/src/Facades/FanCourier.php',
+        'SeniorProgramming\\FanCourier\\Helpers\\Csv' => __DIR__ . '/..' . '/seniorprogramming/fancourier/src/Helpers/Csv.php',
+        'SeniorProgramming\\FanCourier\\Helpers\\Hints' => __DIR__ . '/..' . '/seniorprogramming/fancourier/src/Helpers/Hints.php',
+        'SeniorProgramming\\FanCourier\\Providers\\ApiServiceProvider' => __DIR__ . '/..' . '/seniorprogramming/fancourier/src/Providers/ApiServiceProvider.php',
         'Symfony\\Component\\Console\\Application' => __DIR__ . '/..' . '/symfony/console/Application.php',
         'Symfony\\Component\\Console\\CommandLoader\\CommandLoaderInterface' => __DIR__ . '/..' . '/symfony/console/CommandLoader/CommandLoaderInterface.php',
         'Symfony\\Component\\Console\\CommandLoader\\ContainerCommandLoader' => __DIR__ . '/..' . '/symfony/console/CommandLoader/ContainerCommandLoader.php',
@@ -3669,6 +3731,7 @@ class ComposerStaticInit1a51156d4d432e5389103a27a653d650
         'Symfony\\Component\\HttpFoundation\\Session\\Storage\\Handler\\NullSessionHandler' => __DIR__ . '/..' . '/symfony/http-foundation/Session/Storage/Handler/NullSessionHandler.php',
         'Symfony\\Component\\HttpFoundation\\Session\\Storage\\Handler\\PdoSessionHandler' => __DIR__ . '/..' . '/symfony/http-foundation/Session/Storage/Handler/PdoSessionHandler.php',
         'Symfony\\Component\\HttpFoundation\\Session\\Storage\\Handler\\RedisSessionHandler' => __DIR__ . '/..' . '/symfony/http-foundation/Session/Storage/Handler/RedisSessionHandler.php',
+        'Symfony\\Component\\HttpFoundation\\Session\\Storage\\Handler\\SessionHandlerFactory' => __DIR__ . '/..' . '/symfony/http-foundation/Session/Storage/Handler/SessionHandlerFactory.php',
         'Symfony\\Component\\HttpFoundation\\Session\\Storage\\Handler\\StrictSessionHandler' => __DIR__ . '/..' . '/symfony/http-foundation/Session/Storage/Handler/StrictSessionHandler.php',
         'Symfony\\Component\\HttpFoundation\\Session\\Storage\\MetadataBag' => __DIR__ . '/..' . '/symfony/http-foundation/Session/Storage/MetadataBag.php',
         'Symfony\\Component\\HttpFoundation\\Session\\Storage\\MockArraySessionStorage' => __DIR__ . '/..' . '/symfony/http-foundation/Session/Storage/MockArraySessionStorage.php',
@@ -3838,6 +3901,9 @@ class ComposerStaticInit1a51156d4d432e5389103a27a653d650
         'Symfony\\Component\\Mime\\Address' => __DIR__ . '/..' . '/symfony/mime/Address.php',
         'Symfony\\Component\\Mime\\BodyRendererInterface' => __DIR__ . '/..' . '/symfony/mime/BodyRendererInterface.php',
         'Symfony\\Component\\Mime\\CharacterStream' => __DIR__ . '/..' . '/symfony/mime/CharacterStream.php',
+        'Symfony\\Component\\Mime\\Crypto\\SMime' => __DIR__ . '/..' . '/symfony/mime/Crypto/SMime.php',
+        'Symfony\\Component\\Mime\\Crypto\\SMimeEncrypter' => __DIR__ . '/..' . '/symfony/mime/Crypto/SMimeEncrypter.php',
+        'Symfony\\Component\\Mime\\Crypto\\SMimeSigner' => __DIR__ . '/..' . '/symfony/mime/Crypto/SMimeSigner.php',
         'Symfony\\Component\\Mime\\DependencyInjection\\AddMimeTypeGuesserPass' => __DIR__ . '/..' . '/symfony/mime/DependencyInjection/AddMimeTypeGuesserPass.php',
         'Symfony\\Component\\Mime\\Email' => __DIR__ . '/..' . '/symfony/mime/Email.php',
         'Symfony\\Component\\Mime\\Encoder\\AddressEncoderInterface' => __DIR__ . '/..' . '/symfony/mime/Encoder/AddressEncoderInterface.php',
@@ -3876,7 +3942,6 @@ class ComposerStaticInit1a51156d4d432e5389103a27a653d650
         'Symfony\\Component\\Mime\\MimeTypeGuesserInterface' => __DIR__ . '/..' . '/symfony/mime/MimeTypeGuesserInterface.php',
         'Symfony\\Component\\Mime\\MimeTypes' => __DIR__ . '/..' . '/symfony/mime/MimeTypes.php',
         'Symfony\\Component\\Mime\\MimeTypesInterface' => __DIR__ . '/..' . '/symfony/mime/MimeTypesInterface.php',
-        'Symfony\\Component\\Mime\\NamedAddress' => __DIR__ . '/..' . '/symfony/mime/NamedAddress.php',
         'Symfony\\Component\\Mime\\Part\\AbstractMultipartPart' => __DIR__ . '/..' . '/symfony/mime/Part/AbstractMultipartPart.php',
         'Symfony\\Component\\Mime\\Part\\AbstractPart' => __DIR__ . '/..' . '/symfony/mime/Part/AbstractPart.php',
         'Symfony\\Component\\Mime\\Part\\DataPart' => __DIR__ . '/..' . '/symfony/mime/Part/DataPart.php',
@@ -3886,8 +3951,15 @@ class ComposerStaticInit1a51156d4d432e5389103a27a653d650
         'Symfony\\Component\\Mime\\Part\\Multipart\\FormDataPart' => __DIR__ . '/..' . '/symfony/mime/Part/Multipart/FormDataPart.php',
         'Symfony\\Component\\Mime\\Part\\Multipart\\MixedPart' => __DIR__ . '/..' . '/symfony/mime/Part/Multipart/MixedPart.php',
         'Symfony\\Component\\Mime\\Part\\Multipart\\RelatedPart' => __DIR__ . '/..' . '/symfony/mime/Part/Multipart/RelatedPart.php',
+        'Symfony\\Component\\Mime\\Part\\SMimePart' => __DIR__ . '/..' . '/symfony/mime/Part/SMimePart.php',
         'Symfony\\Component\\Mime\\Part\\TextPart' => __DIR__ . '/..' . '/symfony/mime/Part/TextPart.php',
         'Symfony\\Component\\Mime\\RawMessage' => __DIR__ . '/..' . '/symfony/mime/RawMessage.php',
+        'Symfony\\Component\\Mime\\Test\\Constraint\\EmailAddressContains' => __DIR__ . '/..' . '/symfony/mime/Test/Constraint/EmailAddressContains.php',
+        'Symfony\\Component\\Mime\\Test\\Constraint\\EmailAttachmentCount' => __DIR__ . '/..' . '/symfony/mime/Test/Constraint/EmailAttachmentCount.php',
+        'Symfony\\Component\\Mime\\Test\\Constraint\\EmailHasHeader' => __DIR__ . '/..' . '/symfony/mime/Test/Constraint/EmailHasHeader.php',
+        'Symfony\\Component\\Mime\\Test\\Constraint\\EmailHeaderSame' => __DIR__ . '/..' . '/symfony/mime/Test/Constraint/EmailHeaderSame.php',
+        'Symfony\\Component\\Mime\\Test\\Constraint\\EmailHtmlBodyContains' => __DIR__ . '/..' . '/symfony/mime/Test/Constraint/EmailHtmlBodyContains.php',
+        'Symfony\\Component\\Mime\\Test\\Constraint\\EmailTextBodyContains' => __DIR__ . '/..' . '/symfony/mime/Test/Constraint/EmailTextBodyContains.php',
         'Symfony\\Component\\Process\\Exception\\ExceptionInterface' => __DIR__ . '/..' . '/symfony/process/Exception/ExceptionInterface.php',
         'Symfony\\Component\\Process\\Exception\\InvalidArgumentException' => __DIR__ . '/..' . '/symfony/process/Exception/InvalidArgumentException.php',
         'Symfony\\Component\\Process\\Exception\\LogicException' => __DIR__ . '/..' . '/symfony/process/Exception/LogicException.php',

@@ -137,12 +137,14 @@ jQuery(document).ready(function($) {
 			if ( $(this).closest('.input-group').find('.form-control').val() != 0  ) {
 				$(this).closest('.input-group').find('.form-control').val(parseInt($(this).closest('.input-group').find('.form-control').val()) - 1);
 			} else {
-				$(this).closest('.input-group').find('.form-control').val(parseInt(0));
+				$(this).closest('.input-group').find('.form-control').val(parseInt(1));
 			}
+			$(this).closest('.input-group').find('.form-control').change();
 		});
 		$('.js-btn-plus').on('click', function(e){
 			e.preventDefault();
 			$(this).closest('.input-group').find('.form-control').val(parseInt($(this).closest('.input-group').find('.form-control').val()) + 1);
+			$(this).closest('.input-group').find('.form-control').change();
 		});
 	};
 	sitePlusMinus();

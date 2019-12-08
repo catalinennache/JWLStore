@@ -80,7 +80,7 @@
           <div class="icons">
           
            
-            <a href="#" class="icons-btn d-inline-block js-search-open"><span class="icon-search"></span></a>
+            <!--a href="#" class="icons-btn d-inline-block js-search-open"><span class="icon-search"></span></a-->
             <a href="/cart" class="icons-btn d-inline-block bag">
               <span class="icon-shopping-bag"></span>
               <?php if(session('cart_products')){?>

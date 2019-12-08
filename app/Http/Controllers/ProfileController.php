@@ -7,6 +7,9 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use App\User;
+//use SeniorProgramming\FanCourier\Facades\FanCourier;
+use FanCourier\fanCourier;
+use FanCourier\Plugin\csv\csvItem;
 
 use Illuminate\Support\Facades\Auth;
 class ProfileController extends Controller
@@ -19,7 +22,7 @@ class ProfileController extends Controller
      */
 
     function __construct(){
-        $this->middleware('auth');
+       // $this->middleware('auth');
     }
 
 
@@ -98,6 +101,104 @@ class ProfileController extends Controller
     }
 
     
+    function FANTest(Request $req){
+       
+      /* print_r(FanCourier::order([
+        'nr_colete' => 1, // or 'nr_plicuri' => 1
+        'pers_contact' => 'Test',
+        'tel' => 123456789,
+        'email' => 'example@example.com',
+        'greutate' => 1,
+        'inaltime' => 10,
+        'lungime' => 10,
+        'latime' => 10,
+        'ora_ridicare' => '18:00',
+        'observatii' => '',
+        'client_exp' => 'Test',
+        'strada' => 'Test',
+        'nr' => 1,
+        'bloc' => 2,
+        'scara' => 3,
+        'etaj' => 7,
+        'ap' => 78,
+        'localitate' => 'Constanta',
+        'judet' => 'Constanta',
+    ]));
+        print_r( FanCourier::generateAwb(['fisier' => [
+            [
+                'tip_serviciu' => 'standard', 
+                'banca' => '',
+                'iban' =>  '',
+                'nr_plicuri' => 1,
+                'nr_colete' => 0,
+                'greutate' => 1,
+                'plata_expeditie' => 'ramburs',
+                'ramburs_bani' => 100,
+                'plata_ramburs_la' => 'destinatar',
+                'valoare_declarata' => 400,
+                'persoana_contact_expeditor' => 'Test User',
+                'observatii' => 'Lorem ipsum',
+                'continut' => '',
+                'nume_destinar' => 'Test',
+                'persoana_contact' => 'Test',
+                'telefon' => '123456789',
+                'fax' => '123456789',
+                'email' => 'example@example.com',
+                'judet' => 'Galati',
+                'localitate' => 'Tecuci',
+                'strada' => 'Lorem',
+                'nr' => '2',
+                'cod_postal' => '123456',
+                'bl' => '',
+                'scara' => '',
+                'etaj'  => '',
+                'apartament' => '',
+                'inaltime_pachet' => '',
+                'lungime_pachet' => '',
+                'restituire' => '',
+                'centru_cost' => '',
+                'optiuni' => '',
+                'packing' => '',
+                'date_personale' => ''
+            ]]]));
+*/
+
+try {
+
+    $params = [
+      'username' => 'clienttest',
+      'user_pass' => 'testing',
+      'client_id' => '7032158',
+    ];
+  
+    $fc = new fanCourier();
+    $endpoint = $fc->getEndpoint('awbGenerator');
+    $endpoint->createFile();
+  
+    $item1 = csvItem::newItem();
+    $item1->setItem('tip', 'standard');
+    $item1->setItems(['localitate' => 'Targu Mures', 'judet' => 'Mures', 'strada' => 'Aleea Carpati', 'nr' => '1']);
+    $item1->setItems(['telefon' => '0758099432',]);
+    $item1->setItems(['nume_destinatar' => 'Name 1', 'plata_expeditii' => 'destinatar']);
+    $item1->setItems(['greutate' => '1', 'nr_colet' => 1]);
+    $endpoint->addNewItem($item1);
+  
+  
+    //print_r($endpoint->csvToText());
+  
+    $params['fisier'] = $endpoint->getFile();
+    $endpoint->setParams($params);
+  
+    $result = $endpoint->getResult();
+    foreach ($result as $key => $value) {
+      print_r(str_getcsv($value));
+    }
+  }
+  catch (Exception $exc) {
+    echo $exc->getMessage();
+  }
+  
+    }
 
 
 }

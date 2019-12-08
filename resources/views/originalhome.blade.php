@@ -205,6 +205,19 @@
         </div>
       </div>
     </div>
+<style>
+  @media screen and (max-width:921px){
+    .site-section .popular .item-entry{
+    max-width: 48.33%!important;
+  }}
 
+  @media screen and (max-width:768px){
+    .site-section .popular .item-entry{
+      max-width: unset!important;
+    }
+  }
+
+
+  </style>
     @endsection
 

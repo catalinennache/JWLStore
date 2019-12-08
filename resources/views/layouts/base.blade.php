@@ -4,6 +4,7 @@
     <title>Silver Boutiqe</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    
 
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
@@ -20,13 +21,25 @@
     <link rel="stylesheet" href="css/aos.css">
 
     <link rel="stylesheet" href="css/style.css">
-    
-  </head>
-  <body>
     <style>
-  
+     @media screen and (max-width:380px){ 
+        .js-logo-clone{
+          font-size: 15px!important;
+      }}
+     
+      </style>
+  </head>
+  <body class="staged">
+    <style>
+      .site-navbar{
+        position:fixed;
+        width:100%;
+        top:0;
+        left:0;
+      }
       .site-section{
         background: #f9f9f9;
+        padding-top:calc(2.5em + 57px);
       }
       .grid-section{
         margin-top:15px;
@@ -205,7 +218,7 @@
           <div class="icons">
           
            
-            <a href="#" class="icons-btn d-inline-block js-search-open"><span class="icon-search"></span></a>
+            <!--a href="#" class="icons-btn d-inline-block js-search-open"><span class="icon-search"></span></a-->
             <a href="/cart" class="icons-btn d-inline-block bag">
               <span class="icon-shopping-bag"></span>
               <?php if(session('cart_products')){?>
@@ -321,6 +334,8 @@
         0% { transform: rotate(0deg); }
         100% { transform: rotate(360deg); }
       }
+
+      
       </style>
   <script src="js/jquery-3.3.1.min.js"></script>
   <script src="js/jquery-ui.js"></script>

@@ -178,12 +178,14 @@
                     </thead>
                     <tbody>
                       <?php $total = 0; 
-                           foreach($cart as $prod_id => $pcs) {
+                           foreach($cart as $prod_id => $sizes_pcs) {
                             $product = DB::table('Products')->where('product_id',$prod_id)->first();
+                            foreach ($sizes_pcs as $size => $pcs) {
+                            
                        ?> <tr>
-                        <td><?php echo $product->product_name;?> <strong class="mx-2">x</strong> <?php echo $pcs; ?></td>
+                        <td><a href="/shops?id=<?php echo $prod_id;?>"><?php echo $product->product_name.' '.$size;?> <strong class="mx-2">x</strong> <?php echo $pcs; ?></td>
                         <td><?php echo ($product->product_price*$pcs).' Lei';?> </td>
-                       </tr> <?php $total += $product->product_price*$pcs; } ?>
+                       </tr> <?php $total += $product->product_price*$pcs; }} ?>
                        <tr>
                         <td><?php echo $transport->name.' Transport';?></td>
                         <td><?php echo $transport->price.'.00 Lei';?> </td>

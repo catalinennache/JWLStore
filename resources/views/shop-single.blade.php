@@ -28,19 +28,15 @@
                     }
                   ?>
                   </strong></strong></p>
-            <div class="mb-1 d-flex">
-              <label for="option-sm" class="d-flex mr-3 mb-3">
-                <span class="d-inline-block mr-2" style="top:-2px; position: relative;"><input type="radio" id="option-sm" name="shop-sizes"></span> <span class="d-inline-block text-black">Small</span>
-              </label>
-              <label for="option-md" class="d-flex mr-3 mb-3">
-                <span class="d-inline-block mr-2" style="top:-2px; position: relative;"><input type="radio" id="option-md" name="shop-sizes"></span> <span class="d-inline-block text-black">Medium</span>
-              </label>
-              <label for="option-lg" class="d-flex mr-3 mb-3">
-                <span class="d-inline-block mr-2" style="top:-2px; position: relative;"><input type="radio" id="option-lg" name="shop-sizes"></span> <span class="d-inline-block text-black">Large</span>
-              </label>
-              <label for="option-xl" class="d-flex mr-3 mb-3">
-                <span class="d-inline-block mr-2" style="top:-2px; position: relative;"><input type="radio" id="option-xl" name="shop-sizes"></span> <span class="d-inline-block text-black"> Extra Large</span>
-              </label>
+            <div class="mb-1 d-inline-block">
+             
+              <?php $cnt = count($sizes); foreach ($sizes as $size) { ?>
+                <label for="option-<?php echo $size->size; ?>" class="d-inline-block <?php echo 'mr-'.$cnt.' mb-'.$cnt;?> ">
+                  <span class="d-inline-block mr-2" style="top:-2px; position: relative;"><input <?php if($size->Quantity_AV == 0) echo 'title="Aceasta marime nu se afla in stock."'?> type="radio" <?php if($size->Quantity_AV == 0) echo 'disabled'?> id="option-<?php echo $size->size; ?>" value="<?php echo $size->size; ?>" name="shop-sizes"></span> <span class="d-inline-block text-black"><?php echo $size->description; ?> </span>
+                </label>
+
+              <?php } ?>
+                
             </div>
             <div class="mb-5">
               <div class="input-group mb-3" style="max-width: 120px;">
@@ -54,7 +50,7 @@
             </div>
 
             </div>
-            <div><a  class="buy-now btn btn-sm height-auto px-4 py-3 btn-primary" style="float:left;color:white!important;">Add To Cart</a>
+            <div><a  class="disabled buy-now btn btn-sm height-auto px-4 py-3 btn-primary" style="float:left;color:white!important;">Add To Cart</a>
               <div class="col-md-1" style="margin-top:5px;display:inline-flex;">
                   <div class="loader small hidden" style="margin-top:6px;">
                       <span class="checkmark">
@@ -219,13 +215,22 @@
     <script>
       window.prodid = "<?php echo $prod->product_id;?>";
       window.onload = function(){
+        $('input[name=shop-sizes]').on('click',function(ev){
+          if($('input[name=shop-sizes]:checked').val()){
+            $('.buy-now').removeClass('disabled');
+          }
+        });
+
         $('.buy-now').on('click',function(ev){
+          if(!$('input[name=shop-sizes]:checked').val())
+              return;
           $('.loader').removeClass('hidden');
            $.ajax({
              type:"POST",
              url:"/api/addtocart",
              data:{id:window.prodid,
                    pcs:$('.pcs').val(),
+                   size:$('input[name=shop-sizes]:checked').val(),
                   _token: "{{ csrf_token() }}"
                   },
              success:function(data){

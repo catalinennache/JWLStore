@@ -41,3 +41,5 @@ Route::get('/order',"ProfileController@ShowOrder");
 Route::post('/api/saveProfile',"ProfileController@saveProfile");
 Route::post('/api/addtocart',"ShopController@addtocart");
 Route::post('/api/removeFromCart',"ShopController@removefromcart");
+Route::post('/api/updateCart',"ShopController@updateCart");
+Route::get('/fan',"ProfileController@FANTest");

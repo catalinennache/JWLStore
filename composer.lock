@@ -1,11 +1,49 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "3bb39bce6e4857add986b7f4df92de12",
+    "content-hash": "c97a764703fda69f436f5cd532053fca",
     "packages": [
+        {
+            "name": "curier/fancourier",
+            "version": "1.0.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/reea-net/FanCourier.git",
+                "reference": "f946dfd6cb607ae1bace5e3a04450a3b151de50b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/reea-net/FanCourier/zipball/f946dfd6cb607ae1bace5e3a04450a3b151de50b",
+                "reference": "f946dfd6cb607ae1bace5e3a04450a3b151de50b",
+                "shasum": ""
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "FanCourier\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL"
+            ],
+            "authors": [
+                {
+                    "name": "Csaba Balint",
+                    "email": "balintcsaba89@gmail.com"
+                }
+            ],
+            "description": "API for FanCourier express courier services.",
+            "time": "2016-02-25T12:50:28+00:00"
+        },
         {
             "name": "dnoegel/php-xdg-base-dir",
             "version": "0.1",
@@ -1123,6 +1161,63 @@
             "time": "2018-07-02T15:55:56+00:00"
         },
         {
+            "name": "php-curl-class/php-curl-class",
+            "version": "7.4.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/php-curl-class/php-curl-class.git",
+                "reference": "c15f23ce5d52a4c68b69640ed6510a9d2a98ec6f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/php-curl-class/php-curl-class/zipball/c15f23ce5d52a4c68b69640ed6510a9d2a98ec6f",
+                "reference": "c15f23ce5d52a4c68b69640ed6510a9d2a98ec6f",
+                "shasum": ""
+            },
+            "require": {
+                "ext-curl": "*",
+                "php": ">=5.3"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "*",
+                "squizlabs/php_codesniffer": "*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Curl\\": "src/Curl/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Unlicense"
+            ],
+            "authors": [
+                {
+                    "name": "Zach Borboa"
+                }
+            ],
+            "description": "PHP Curl Class makes it easy to send HTTP requests and integrate with web APIs.",
+            "homepage": "https://github.com/php-curl-class/php-curl-class",
+            "keywords": [
+                "api",
+                "class",
+                "client",
+                "curl",
+                "framework",
+                "http",
+                "http client",
+                "json",
+                "php",
+                "requests",
+                "rest",
+                "restful",
+                "web service",
+                "xml"
+            ],
+            "time": "2017-09-04T21:38:09+00:00"
+        },
+        {
             "name": "phpoption/phpoption",
             "version": "1.5.0",
             "source": {
@@ -1471,6 +1566,46 @@
                 "uuid"
             ],
             "time": "2018-07-19T23:38:55+00:00"
+        },
+        {
+            "name": "seniorprogramming/fancourier",
+            "version": "0.0.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/spgwebdev/fancourier.git",
+                "reference": "849ea329626512333b5e10ca6dd6568838d5cdfa"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/spgwebdev/fancourier/zipball/849ea329626512333b5e10ca6dd6568838d5cdfa",
+                "reference": "849ea329626512333b5e10ca6dd6568838d5cdfa",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.5.9",
+                "php-curl-class/php-curl-class": "^7.1"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "5.5.2"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "SeniorProgramming\\FanCourier\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Maria Petrescu",
+                    "email": "mpetrescu@seniorprogramming.ro"
+                }
+            ],
+            "description": "FanCourier API Client",
+            "time": "2018-06-15T09:08:49+00:00"
         },
         {
             "name": "swiftmailer/swiftmailer",
@@ -4204,18 +4339,18 @@
             "authors": [
                 {
                     "name": "Geert Bergman",
-                    "homepage": "http://www.scrivo.org/",
-                    "role": "Project Author"
+                    "role": "Project Author",
+                    "homepage": "http://www.scrivo.org/"
                 },
                 {
                     "name": "Vladimir Jimenez",
-                    "homepage": "https://allejo.io",
-                    "role": "Contributor"
+                    "role": "Contributor",
+                    "homepage": "https://allejo.io"
                 },
                 {
                     "name": "Martin Folkers",
-                    "homepage": "https://twobrain.io",
-                    "role": "Contributor"
+                    "role": "Contributor",
+                    "homepage": "https://twobrain.io"
                 }
             ],
             "description": "Server side syntax highlighter that supports 185 languages. It's a PHP port of highlight.js",
