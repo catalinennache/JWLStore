@@ -6,18 +6,36 @@
         <div class="row">
           <div class="col-md-6">
             <div class="item-entry">
-              <a href="" class="product-item md-height bg-white d-block">
+              <a class="product-item md-height bg-white d-block" href="images/products/<?php try{echo $prod->product_image;}catch(Exception $e){} ?>" data-lightbox="example-1">
                 <img src="images/products/<?php try{echo $prod->product_image;}catch(Exception $e){} ?>" alt="Image" class="img-fluid">
                 
               </a>
-              
+             
             </div>
-
+            <div class="mini-gallery"> 
+                <a class=" md-height bg-white " href="images/products/<?php try{echo $prod->product_image;}catch(Exception $e){} ?>" data-lightbox="example-1">
+                  <img src="images/products/<?php try{echo $prod->product_image;}catch(Exception $e){} ?>" alt="Image" class="img-fluid">
+                  
+                </a>
+                <a class="md-height bg-white " href="images/products/<?php try{echo $prod->product_image;}catch(Exception $e){} ?>" data-lightbox="example-1">
+                  <img src="images/products/<?php try{echo $prod->product_image;}catch(Exception $e){} ?>" alt="Image" class="img-fluid">
+                  
+                </a>
+                <a class="md-height bg-white " href="images/products/<?php try{echo $prod->product_image;}catch(Exception $e){} ?>" data-lightbox="example-1">
+                  <img src="images/products/<?php try{echo $prod->product_image;}catch(Exception $e){} ?>" alt="Image" class="img-fluid">
+                  
+                </a>
+                <a class="md-height bg-white " href="images/products/<?php try{echo $prod->product_image;}catch(Exception $e){} ?>" data-lightbox="example-1">
+                  <img src="images/products/<?php try{echo $prod->product_image;}catch(Exception $e){} ?>" alt="Image" class="img-fluid">
+                  
+                </a>    
+            </div>
+           
           </div>
-          <div class="col-md-6">
+          <div class="col-md-6" style="margin-top:25px;">
             <h2 class="text-black"><?php echo $prod->product_name; ?></h2>
-            <p><?php echo $prod->product_description?></p>
-            <p><?php print_r(session('cart_products'));?>
+            <p>{{$prod->product_description}}</p>
+            
             <p><strong class="text-primary h4"><strong class="item-price">
               <?php if($prod->product_new_price != 0){ ?> <del> <?php echo $prod->product_price; ?></del> <?php } ?>
                    <?php
@@ -28,16 +46,18 @@
                     }
                   ?>
                   </strong></strong></p>
+            <h6 class="text-black">Marimi disponibile:</h6>      
             <div class="mb-1 d-inline-block">
              
               <?php $cnt = count($sizes); foreach ($sizes as $size) { ?>
-                <label for="option-<?php echo $size->size; ?>" class="d-inline-block <?php echo 'mr-'.$cnt.' mb-'.$cnt;?> ">
+                <label <?php if($size->Quantity_AV == 0) echo 'disabled'?> for="option-<?php echo $size->size; ?>" class="d-inline-block <?php echo 'mr-'.$cnt.' mb-'.$cnt;?> ">
                   <span class="d-inline-block mr-2" style="top:-2px; position: relative;"><input <?php if($size->Quantity_AV == 0) echo 'title="Aceasta marime nu se afla in stock."'?> type="radio" <?php if($size->Quantity_AV == 0) echo 'disabled'?> id="option-<?php echo $size->size; ?>" value="<?php echo $size->size; ?>" name="shop-sizes"></span> <span class="d-inline-block text-black"><?php echo $size->description; ?> </span>
                 </label>
 
               <?php } ?>
                 
             </div>
+            <div class="q-b-wrapper">
             <div class="mb-5">
               <div class="input-group mb-3" style="max-width: 120px;">
               <div class="input-group-prepend">
@@ -50,8 +70,8 @@
             </div>
 
             </div>
-            <div><a  class="disabled buy-now btn btn-sm height-auto px-4 py-3 btn-primary" style="float:left;color:white!important;">Add To Cart</a>
-              <div class="col-md-1" style="margin-top:5px;display:inline-flex;">
+            <div><a  class="disabled buy-now btn btn-sm height-auto px-4 py-3 btn-primary float-right-mobile" style="float:left;color:white!important;">Add To Cart</a>
+              <div class="col-md-1 float-left-mobile" style="margin-top:5px;width:auto;display:inline-flex;">
                   <div class="loader small hidden" style="margin-top:6px;">
                       <span class="checkmark">
                           <div class="checkmark_stem"></div>
@@ -60,13 +80,22 @@
                   </div> 
               </div>
             </div>
+            </div>
 
           </div>
         </div>
       </div>
     </div>
 
-    <!--div class="site-section block-3 site-blocks-2">
+    <!--
+       <div>
+      <a class="example-image-link" href="http://lokeshdhakar.com/projects/lightbox2/images/image-3.jpg" data-lightbox="example-set" data-title="Click the right half of the image to move forward."><img class="example-image" src="http://lokeshdhakar.com/projects/lightbox2/images/thumb-3.jpg" alt=""/></a>
+      <a class="example-image-link" href="http://lokeshdhakar.com/projects/lightbox2/images/image-4.jpg" data-lightbox="example-set" data-title="Or press the right arrow on your keyboard."><img class="example-image" src="http://lokeshdhakar.com/projects/lightbox2/images/thumb-4.jpg" alt="" /></a>
+      <a class="example-image-link" href="http://lokeshdhakar.com/projects/lightbox2/images/image-5.jpg" data-lightbox="example-set" data-title="The next image in the set is preloaded as you're viewing."><img class="example-image" src="http://lokeshdhakar.com/projects/lightbox2/images/thumb-5.jpg" alt="" /></a>
+      <a class="example-image-link" href="http://lokeshdhakar.com/projects/lightbox2/images/image-6.jpg" data-lightbox="example-set" data-title="Click anywhere outside the image or the X to the right to close."><img class="example-image" src="http://lokeshdhakar.com/projects/lightbox2/images/thumb-6.jpg" alt="" /></a>
+    </div>
+      
+      div class="site-section block-3 site-blocks-2">
       <div class="container">
         <div class="row justify-content-center">
           <div class="col-md-7 site-section-heading text-center pt-4">
@@ -249,7 +278,14 @@
              }
            })
         })
+
+        var lightbx = document.createElement('script');
+        lightbx.src="/js/lightbox.min.js";
+        document.body.appendChild(lightbx);
+        lightbx.onload = function(){ lightbox.option({alwaysShowNavOnTouchDevices:true})}
       }
+
+
       </script>
       <style>
           .loader.small{
@@ -303,6 +339,44 @@
           }
           .hidden{
             display: none;
+          } 
+           label[disabled]{ 
+            display: none!important;
           }
-          </style>
+
+          .lb-nav>a{
+            opacity:1!important;
+          }
+         
+              .mini-gallery{
+                display: inline-flex;
+
+              } .mini-gallery>a{
+                margin:0 10px;
+                transition: .3s ease-out;
+              }
+              .mini-gallery>a:hover{
+                box-shadow: 0px 0px 20px #D2D2D2;
+               
+              }
+
+          
+
+           @media screen and (max-width:767px){
+             .float-left-mobile{
+               float:left!important;
+             }
+             .float-right-mobile{
+               float:right!important;
+             }
+
+             .q-b-wrapper>div:first-child{
+              float: left;
+           }  
+
+           .q-b-wrapper>div:last-child{
+             float: right;
+           }
+           }
+            </style>
 @endsection

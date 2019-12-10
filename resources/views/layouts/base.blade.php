@@ -16,6 +16,7 @@
     <link rel="stylesheet" href="css/jquery-ui.css">
     <link rel="stylesheet" href="css/owl.carousel.min.css">
     <link rel="stylesheet" href="css/owl.theme.default.min.css">
+    <link rel="stylesheet" href="css/lightbox.min.css">
 
 
     <link rel="stylesheet" href="css/aos.css">
@@ -209,7 +210,7 @@
                 <li><a href="/login" class="icons-btn d-inline-block js ">Login</a></li>
                <li> <a href="/register" class="icons-btn d-inline-block js ">Register</a></li>
                @else
-                 <li>  <a href="/profile" class="icons-btn d-inline-block ">{{Auth::user()->name}}</a> </li>
+                 <li>  <a href="/profile" class="icons-btn d-inline-block ">{{Auth::user()->name?Auth::user()->name:"Profile"}}</a> </li>
                  <li> <a href="/logout" class="icons-btn d-inline-block ">Log Out</a></li>
                @endif
               </ul>
@@ -339,12 +340,11 @@
       </style>
   <script src="js/jquery-3.3.1.min.js"></script>
   <script src="js/jquery-ui.js"></script>
-  <script src="js/popper.min.js"></script>
+  <!--script src="js/popper.min.js"></script-->
   <script src="js/bootstrap.min.js"></script>
   <script src="js/owl.carousel.min.js"></script>
   <script src="js/jquery.magnific-popup.min.js"></script>
   <script src="js/aos.js"></script>
-
   <script src="js/main.js"></script>
 
     

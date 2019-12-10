@@ -80,8 +80,8 @@
                 <li><a href="/login" class="icons-btn d-inline-block js ">Login</a></li>
                <li> <a href="/register" class="icons-btn d-inline-block js ">Register</a></li>
                @else
-                 <li>  <a href="/profile" class="icons-btn d-inline-block ">{{Auth::user()->name}}</a> </li>
-                 <li> <a href="/logout" class="icons-btn d-inline-block ">Log Out</a></li>
+               <li>  <a href="/profile" class="icons-btn d-inline-block ">{{Auth::user()->name?Auth::user()->name:"Profile"}}</a> </li>
+               <li> <a href="/logout" class="icons-btn d-inline-block ">Log Out</a></li>
                @endif
               </ul>
             </nav>
