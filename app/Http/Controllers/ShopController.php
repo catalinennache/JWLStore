@@ -28,8 +28,22 @@ class ShopController extends Controller
     }
 
     public function shop(Request $req)
-    {
-        return view('shop');
+    {   $page = $req->page?$req->page:0;
+        $products = DB::table('Products')->skip(9*$page)->take(9)->get();
+        $pages = floor(DB::table('Products')->count()/9)+1;
+        $categories = DB::table('Products')->select('product_type_code')->groupby('product_type_code')->get();
+       
+        $cat0 = array();
+        foreach($categories as $ct){
+        $cat0[] = DB::table('Ref_Product_Types')->where('product_type_code',$ct->product_type_code)->first();}
+
+        $cats = array();
+
+        foreach($cat0 as $category){
+           $cats[$category->product_type_category] = DB::table('Products')->where('product_type_code',$category->product_type_code)->count();
+        }
+   
+        return view('shop')->with(['products'=>$products,'pages'=>$pages,'active_tab'=>$page,'cats'=>$cats]);
     }
 
     public function cart(Request $req)
@@ -42,8 +56,9 @@ class ShopController extends Controller
         $products = DB::table('Products')->get();
         $product_id = $req->id;
         $prod = DB::table('Products')->where('product_id',$product_id)->first();
-        $prod_sizes = DB::table('Product_sizes')->where('product_id',$product_id)->get();
-
+        $prod_sizes = DB::table('Product_sizes')->join('Sizes','Product_sizes.size_id','=','Sizes.size_id')
+                                                ->where('product_id',$product_id)->get();
+     
         return view('shop-single')->with(['products'=>$products,'prod'=>$prod,'sizes'=>$prod_sizes]);
     }
 
@@ -152,10 +167,10 @@ class ShopController extends Controller
     function addtocart(Request $req){
         $prod_id = $req->id;
         $pcs = $req->pcs;
-        $size= $req->size;
+        $size = $req->size;
         if($prod_id>0 && DB::table('Products')->where('product_id')->get() 
-            && DB::table('Product_sizes')->where(['product_id'=>$prod_id,'size'=>$size])->first() 
-            && DB::table('Product_sizes')->where(['product_id'=>$prod_id,'size'=>$size])->pluck('Quantity_AV')->first() > 0){
+            && DB::table('Product_sizes')->where(['product_id'=>$prod_id,'size_id'=>$size])->first() 
+            && DB::table('Product_sizes')->where(['product_id'=>$prod_id,'size_id'=>$size])->pluck('Quantity_AV')->first() > 0){
             $arr_cart_products = $req->session()->has('cart_products')?session('cart_products'):array();
             $arr_cart_products[$prod_id] = (isset($arr_cart_products[$prod_id])?$arr_cart_products[$prod_id]:array());
             $arr_cart_products[$prod_id][$size] = (isset($arr_cart_products[$prod_id][$size])?$arr_cart_products[$prod_id][$size]:0) + $pcs;

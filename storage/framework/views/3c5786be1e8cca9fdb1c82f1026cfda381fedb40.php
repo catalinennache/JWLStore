@@ -1,8 +1,7 @@
-;
     
 
 <?php $__env->startSection('page_content'); ?>
-    <div class="site-blocks-cover inner-page" data-aos="fade">
+    <!--div class="site-blocks-cover inner-page" data-aos="fade">
       <div class="container">
         <div class="row">
           <div class="col-md-6 ml-auto order-md-2 align-self-start">
@@ -17,26 +16,19 @@
           </div>
         </div>
       </div>
-    </div>
-
-    <div class="custom-border-bottom py-3">
-      <div class="container">
-        <div class="row">
-          <div class="col-md-12 mb-0"><a href="/">Home</a> <span class="mx-2 mb-0">/</span> <strong class="text-black">Shop</strong></div>
-        </div>
-      </div>
-    </div>
+    </div-->
 
 
-    <div class="site-section">
-      <div class="container">
+
+    <div class="site-section" style="width:100%;">
+      <div class="container popular" style="max-width:none!important;width:85%;margin-top:100px;">
+    
 
         <div class="row mb-5">
-          <div class="col-md-9 order-1">
+          <div class="col-md-9 order-2 filtered" style="margin-top:-10px;">
 
             <div class="row align">
               <div class="col-md-12 mb-5">
-                <div class="float-md-left"><h2 class="text-black h5">Shop All</h2></div>
                 <div class="d-flex">
                   <div class="dropdown mr-1 ml-md-auto">
                     <button type="button" class="btn btn-white btn-sm dropdown-toggle px-4" id="dropdownMenuOffset" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -62,153 +54,57 @@
                 </div>
               </div>
             </div>
-            <div class="row mb-5">
-
-              <div class="col-lg-6 col-md-6 item-entry mb-4">
-                <a href="#" class="product-item md-height bg-gray d-block">
-                  <img src="/images/prod_2.png" alt="Image" class="img-fluid">
+            <div class="row" style="display:block">
+            
+              <?php
+                foreach ($products as $prod) {  ?>
+                
+              <div class="col-lg-4 col-md-6 item-entry mb-4 bg-white" style="display:inline-block;padding-bottom:27px;">
+                <a href="/shops?id=<?php echo e($prod->product_id); ?>" class="product-item md-height  d-block">
+                <img src="images/products/product_<?php echo e($prod->product_id); ?>/small/<?php echo e($prod->product_image); ?>" alt="Image" class="img-fluid">
                 </a>
-                <h2 class="item-title"><a href="#">Gray Shoe</a></h2>
-                <strong class="item-price">$20.00</strong>
-              </div>
-              <div class="col-lg-6 col-md-6 item-entry mb-4">
-                <a href="#" class="product-item md-height bg-gray d-block">
-                  <img src="/images/prod_3.png" alt="Image" class="img-fluid">
-                </a>
-                <h2 class="item-title"><a href="#">Blue Shoe High Heels</a></h2>
-                <strong class="item-price"><del>$46.00</del> $28.00</strong>
-              </div>
-
-              <div class="col-lg-6 col-md-6 item-entry mb-4">
-                <a href="#" class="product-item md-height bg-gray d-block">
-                  <img src="/images/model_5.png" alt="Image" class="img-fluid">
-                </a>
-                <h2 class="item-title"><a href="#">Denim Jacket</a></h2>
-                <strong class="item-price"><del>$46.00</del> $28.00</strong>
-
-                <div class="star-rating">
-                  <span class="icon-star2 text-warning"></span>
-                  <span class="icon-star2 text-warning"></span>
-                  <span class="icon-star2 text-warning"></span>
-                  <span class="icon-star2 text-warning"></span>
-                  <span class="icon-star2 text-warning"></span>
-                </div>
-
-              </div>
-              <div class="col-lg-6 col-md-6 item-entry mb-4">
-                <a href="#" class="product-item md-height bg-gray d-block">
-                  <img src="/images/prod_1.png" alt="Image" class="img-fluid">
-                </a>
-                <h2 class="item-title"><a href="#">Leather Green Bag</a></h2>
-                <strong class="item-price"><del>$46.00</del> $28.00</strong>
-                <div class="star-rating">
-                  <span class="icon-star2 text-warning"></span>
-                  <span class="icon-star2 text-warning"></span>
-                  <span class="icon-star2 text-warning"></span>
-                  <span class="icon-star2 text-warning"></span>
-                  <span class="icon-star2 text-warning"></span>
-                </div>
+                <h2 class="item-title"><a href="/shops?id=<?php echo e($prod->product_id); ?>"><?php echo e($prod->product_name); ?></a></h2>
+                <?php if($prod->product_new_price): ?>
+                 <strong class="item-price"><del><?php echo e($prod->product_price.' Lei  '); ?></del><?php echo e($prod->product_new_price.' Lei'); ?></strong>
+                <?php else: ?>
+                <strong class="item-price"><?php echo e($prod->product_price.' Lei'); ?></strong>
+                <?php endif; ?>
               </div>
 
-              <div class="col-lg-6 col-md-6 item-entry mb-4">
-                <a href="#" class="product-item md-height bg-gray d-block">
-                  <img src="/images/model_1.png" alt="Image" class="img-fluid">
-                </a>
-                <h2 class="item-title"><a href="#">Smooth Cloth</a></h2>
-                <strong class="item-price"><del>$46.00</del> $28.00</strong>
-              </div>
-              <div class="col-lg-6 col-md-6 item-entry mb-4">
-                <a href="#" class="product-item md-height bg-gray d-block">
-                  <img src="/images/model_7.png" alt="Image" class="img-fluid">
-                </a>
-                <h2 class="item-title"><a href="#">Yellow Jacket</a></h2>
-                <strong class="item-price">$58.00</strong>
-              </div>
-              <div class="col-lg-6 col-md-6 item-entry mb-4">
-                <a href="#" class="product-item md-height bg-gray d-block">
-                  <img src="/images/prod_2.png" alt="Image" class="img-fluid">
-                </a>
-                <h2 class="item-title"><a href="#">Gray Shoe</a></h2>
-                <strong class="item-price">$20.00</strong>
-              </div>
-              <div class="col-lg-6 col-md-6 item-entry mb-4">
-                <a href="#" class="product-item md-height bg-gray d-block">
-                  <img src="/images/prod_3.png" alt="Image" class="img-fluid">
-                </a>
-                <h2 class="item-title"><a href="#">Blue Shoe High Heels</a></h2>
-                <strong class="item-price"><del>$46.00</del> $28.00</strong>
-              </div>
-
-              <div class="col-lg-6 col-md-6 item-entry mb-4">
-                <a href="#" class="product-item md-height bg-gray d-block">
-                  <img src="/images/model_5.png" alt="Image" class="img-fluid">
-                </a>
-                <h2 class="item-title"><a href="#">Denim Jacket</a></h2>
-                <strong class="item-price"><del>$46.00</del> $28.00</strong>
-
-                <div class="star-rating">
-                  <span class="icon-star2 text-warning"></span>
-                  <span class="icon-star2 text-warning"></span>
-                  <span class="icon-star2 text-warning"></span>
-                  <span class="icon-star2 text-warning"></span>
-                  <span class="icon-star2 text-warning"></span>
-                </div>
-
-              </div>
-              <div class="col-lg-6 col-md-6 item-entry mb-4">
-                <a href="#" class="product-item md-height bg-gray d-block">
-                  <img src="/images/prod_1.png" alt="Image" class="img-fluid">
-                </a>
-                <h2 class="item-title"><a href="#">Leather Green Bag</a></h2>
-                <strong class="item-price"><del>$46.00</del> $28.00</strong>
-                <div class="star-rating">
-                  <span class="icon-star2 text-warning"></span>
-                  <span class="icon-star2 text-warning"></span>
-                  <span class="icon-star2 text-warning"></span>
-                  <span class="icon-star2 text-warning"></span>
-                  <span class="icon-star2 text-warning"></span>
-                </div>
-              </div>
-
-              <div class="col-lg-6 col-md-6 item-entry mb-4">
-                <a href="#" class="product-item md-height bg-gray d-block">
-                  <img src="/images/model_1.png" alt="Image" class="img-fluid">
-                </a>
-                <h2 class="item-title"><a href="#">Smooth Cloth</a></h2>
-                <strong class="item-price"><del>$46.00</del> $28.00</strong>
-              </div>
-              <div class="col-lg-6 col-md-6 item-entry mb-4">
-                <a href="#" class="product-item md-height bg-gray d-block">
-                  <img src="/images/model_7.png" alt="Image" class="img-fluid">
-                </a>
-                <h2 class="item-title"><a href="#">Yellow Jacket</a></h2>
-                <strong class="item-price">$58.00</strong>
-              </div>
+              <?php } ?>
+              
+    
             </div>
             <div class="row">
               <div class="col-md-12 text-center">
                 <div class="site-block-27">
                   <ul>
-                    <li><a href="#">&lt;</a></li>
-                    <li class="active"><span>1</span></li>
-                    <li><a href="#">2</a></li>
-                    <li><a href="#">3</a></li>
-                    <li><a href="#">4</a></li>
-                    <li><a href="#">5</a></li>
-                    <li><a href="#">&gt;</a></li>
+                    <?php if($active_tab > 0): ?>  <li><a href="#">&lt;</a></li> <?php endif; ?>
+                    <?php  
+                          for($i = 0; $i<$pages; $i++){
+                    ?>
+                    <?php if($i == $active_tab): ?>
+                          <li class="active"><span><?php echo e($active_tab+1); ?></span></li>
+                    <?php else: ?>
+                          <li><a href="shop?page=<?php echo e($i+1); ?>"><?php echo e($i+1); ?></a></li>
+                    <?php endif; ?>
+                    <?php if($active_tab != $pages-1): ?> <li><a href="#">&gt;</a></li> <?php endif; ?>
+                    
+                          <?php } ?>
+                    
                   </ul>
                 </div>
               </div>
             </div>
           </div>
-
-          <div class="col-md-3 order-2 mb-5 mb-md-0">
+          <div class="filters-placeholder" style="margin-top:80px;"> </div>
+          <div class="col-md-3 order-1 mb-5 mb-md-0 filters bg-gray" style="margin-top:80px;">
             <div class="border p-4 rounded mb-4">
               <h3 class="mb-3 h6 text-uppercase text-black d-block">Categories</h3>
               <ul class="list-unstyled mb-0">
-                <li class="mb-1"><a href="#" class="d-flex"><span>Men</span> <span class="text-black ml-auto">(2,220)</span></a></li>
-                <li class="mb-1"><a href="#" class="d-flex"><span>Women</span> <span class="text-black ml-auto">(2,550)</span></a></li>
-                <li class="mb-1"><a href="#" class="d-flex"><span>Children</span> <span class="text-black ml-auto">(2,124)</span></a></li>
+               <?php foreach ($cats as $cat=>$pcs) { ?>
+                <li class="mb-1"><a href="#" class="d-flex"><span><?php echo e($cat); ?></span> <span class="text-black ml-auto">(<?php echo e($pcs); ?>)</span></a></li>
+               <?php }?>
               </ul>
             </div>
 
@@ -255,7 +151,7 @@
       </div>
     </div>
 
-    <div class="site-section">
+    <!--div class="site-section">
       <div class="container">
         <div class="title-section mb-5">
           <h2 class="text-uppercase"><span class="d-block">Discover</span> The Collections</h2>
@@ -280,7 +176,100 @@
           </div>
         </div>
       </div>
-    </div>
+    </div-->
+    <style>
+     body  .site-section  .popular .item-entry{
+    
+      max-width: 32%;
+   
+    }
+      @media  screen and (min-width:768px){
+        .filters{position: -webkit-sticky;
+                position: sticky;
+                top: 0;}
+      }
+      @media  screen and (max-width:1320px){
+        .site-section .popular .item-entry{
+        max-width: 48.33%!important;
+      }}
 
+      @media  screen and (max-width:1000px) and (min-width:768px){
+        .site-section .popular .item-entry{
+          max-width: unset!important;
+        }
+        .filters{
+          flex: 0 0 41.66667%!important;
+          max-width: 41.66667%!important;
+        }
+        .filtered{
+          flex: 0 0 58.33333%!important;
+          max-width: 58.33333%!important;
+        }
+      }
+    
+      @media  screen and (max-width:768px){
+        .site-section .popular .item-entry{
+          max-width: unset!important;
+        }
+      }
+    
+    
+      </style>
+      <script>
+      function Utils() {
+
+}
+
+Utils.prototype = {
+    constructor: Utils,
+    isElementInView: function (element, fullyInView) {
+        var pageTop = $(window).scrollTop();
+        var pageBottom = pageTop + $(window).height();
+        var elementTop = $(element).offset().top;
+        var elementBottom = elementTop + $(element).height();
+
+        if (fullyInView === true) {
+            return ((pageTop < elementTop) && (pageBottom > elementBottom));
+        } else {
+            return ((elementTop <= pageBottom) && (elementBottom >= pageTop));
+        }
+    }
+};
+
+window.utils = new Utils();
+      
+window.onload = function(){
+  var isMobile = window.matchMedia("only screen and (max-width: 767px)").matches;
+$(window).scroll(function(e){ 
+  if(!isMobile){
+  var $el = $('.filters'); 
+  var isPositionFixed = ($el.css('position') == 'fixed' || $el.css('position') == 'absolute');
+  if ($(this).scrollTop() >= 150 && !isPositionFixed){ 
+    $('.filters-placeholder').show();
+    $('.filters-placeholder').width($el[0].clientWidth-1);
+    $('.filters-placeholder').height($el[0].clientHeight-1);
+    
+
+    $el.css({'position': 'fixed', 'top': '43px'}); 
+    $el.width($('.filters-placeholder').width()-29.425);
+  }
+  if ($(this).scrollTop() < 150 && isPositionFixed){
+    $el.css({'position': 'initial', 'top': 'unset'}); 
+    $('.filters-placeholder').hide();
+  } else
+  if(window.utils.isElementInView($('footer'),false) && $el.css('position') != 'absolute' && isPositionFixed){
+    
+   
+    $el.css({'position': 'absolute', 'top': ($(window).scrollTop() +35)+"px"}); 
+  }else if(!window.utils.isElementInView($('footer'),false)  && $el.css('position') == 'absolute' && isPositionFixed){
+    $el.css({'position': 'fixed', 'top': '43px'}); 
+    $('.filters-placeholder').show();
+    $('.filters-placeholder').width($el[0].clientWidth-1);
+    $('.filters-placeholder').height($el[0].clientHeight-1);
+  }
+  }
+}); }
+
+        </script>
     <?php $__env->stopSection(); ?>
 <?php echo $__env->make('layouts.base', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH /opt/lampp/htdocs/JWLStore/resources/views/shop.blade.php ENDPATH**/ ?>

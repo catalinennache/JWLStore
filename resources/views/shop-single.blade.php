@@ -3,36 +3,45 @@
 
     <div class="site-section">
       <div class="container">
-        <div class="row">
+        <div class="row" style="margin-top:25px;">
           <div class="col-md-6">
             <div class="item-entry">
-              <a class="product-item md-height bg-white d-block" href="images/products/<?php try{echo $prod->product_image;}catch(Exception $e){} ?>" data-lightbox="example-1">
-                <img src="images/products/<?php try{echo $prod->product_image;}catch(Exception $e){} ?>" alt="Image" class="img-fluid">
+            <a class="product-item md-height bg-white d-block" href="images/products/product_{{$prod->product_id}}/<?php try{echo $prod->product_image;}catch(Exception $e){} ?>" data-lightbox="example-1">
+            <img src="images/products/product_{{$prod->product_id}}/small/<?php try{echo $prod->product_image;}catch(Exception $e){} ?>" alt="Image" class="img-fluid">
                 
               </a>
              
             </div>
             <div class="mini-gallery"> 
-                <a class=" md-height bg-white " href="images/products/<?php try{echo $prod->product_image;}catch(Exception $e){} ?>" data-lightbox="example-1">
-                  <img src="images/products/<?php try{echo $prod->product_image;}catch(Exception $e){} ?>" alt="Image" class="img-fluid">
+              @if ($prod->product_image2)
+              <a class="md-height bg-white " href="images/products/product_{{$$prod->product_id}}/<?php try{echo $prod->product_image2;}catch(Exception $e){} ?>" data-lightbox="example-1">
+                <img src="images/products/product_{{$prod->product_id}}/small/<?php try{echo $prod->product_image2;}catch(Exception $e){} ?>" alt="Image" class="img-fluid">
                   
-                </a>
-                <a class="md-height bg-white " href="images/products/<?php try{echo $prod->product_image;}catch(Exception $e){} ?>" data-lightbox="example-1">
-                  <img src="images/products/<?php try{echo $prod->product_image;}catch(Exception $e){} ?>" alt="Image" class="img-fluid">
+                </a>   
+                @endif
+                @if ($prod->product_image2)
+              <a class="md-height bg-white " href="images/products/product_{{$$prod->product_id}}/<?php try{echo $prod->product_image3;}catch(Exception $e){} ?>" data-lightbox="example-1">
+                <img src="images/products/product_{{$prod->product_id}}/small/<?php try{echo $prod->product_image3;}catch(Exception $e){} ?>" alt="Image" class="img-fluid">
                   
-                </a>
-                <a class="md-height bg-white " href="images/products/<?php try{echo $prod->product_image;}catch(Exception $e){} ?>" data-lightbox="example-1">
-                  <img src="images/products/<?php try{echo $prod->product_image;}catch(Exception $e){} ?>" alt="Image" class="img-fluid">
+                </a>   
+                @endif
+                @if ($prod->product_image2)
+              <a class="md-height bg-white " href="images/products/product_{{$$prod->product_id}}/<?php try{echo $prod->product_image4;}catch(Exception $e){} ?>" data-lightbox="example-1">
+                <img src="images/products/product_{{$prod->product_id}}/small/<?php try{echo $prod->product_image4;}catch(Exception $e){} ?>" alt="Image" class="img-fluid">
                   
-                </a>
-                <a class="md-height bg-white " href="images/products/<?php try{echo $prod->product_image;}catch(Exception $e){} ?>" data-lightbox="example-1">
-                  <img src="images/products/<?php try{echo $prod->product_image;}catch(Exception $e){} ?>" alt="Image" class="img-fluid">
+                </a>   
+                @endif
+                @if ($prod->product_image4)
+              <a class="md-height bg-white " href="images/products/product_{{$$prod->product_id}}/<?php try{echo $prod->product_image5;}catch(Exception $e){} ?>" data-lightbox="example-1">
+                <img src="images/products/product_{{$prod->product_id}}/small/<?php try{echo $prod->product_image5;}catch(Exception $e){} ?>" alt="Image" class="img-fluid">
                   
-                </a>    
+                </a>   
+                @endif
+                
             </div>
            
           </div>
-          <div class="col-md-6" style="margin-top:25px;">
+          <div class="col-md-6 mt-mobile-25"  >
             <h2 class="text-black"><?php echo $prod->product_name; ?></h2>
             <p>{{$prod->product_description}}</p>
             
@@ -50,8 +59,8 @@
             <div class="mb-1 d-inline-block">
              
               <?php $cnt = count($sizes); foreach ($sizes as $size) { ?>
-                <label <?php if($size->Quantity_AV == 0) echo 'disabled'?> for="option-<?php echo $size->size; ?>" class="d-inline-block <?php echo 'mr-'.$cnt.' mb-'.$cnt;?> ">
-                  <span class="d-inline-block mr-2" style="top:-2px; position: relative;"><input <?php if($size->Quantity_AV == 0) echo 'title="Aceasta marime nu se afla in stock."'?> type="radio" <?php if($size->Quantity_AV == 0) echo 'disabled'?> id="option-<?php echo $size->size; ?>" value="<?php echo $size->size; ?>" name="shop-sizes"></span> <span class="d-inline-block text-black"><?php echo $size->description; ?> </span>
+                <label <?php if($size->Quantity_AV == 0) echo 'disabled'?> for="option-<?php echo $size->size_id; ?>" class="d-inline-block <?php echo 'mr-'.$cnt.' mb-'.$cnt;?> ">
+                  <span class="d-inline-block mr-2" style="top:-2px; position: relative;"><input <?php if($size->Quantity_AV == 0) echo 'title="Aceasta marime nu se afla in stock."'?> type="radio" <?php if($size->Quantity_AV == 0) echo 'disabled'?> id="option-<?php echo $size->size_id; ?>" value="<?php echo $size->size_id; ?>" name="shop-sizes"></span> <span class="d-inline-block text-black"><?php echo $size->description; ?> </span>
                 </label>
 
               <?php } ?>
@@ -210,7 +219,7 @@
               <div class="item">
                 <div class="item-entry" style="background:white;">
                   <a href="/shops?id=<?php echo $product->product_id;?>" class="product-item md-height bg-white d-block">
-                    <img src="images/products/<?php try{echo $product->product_image;}catch(Exception $e){} ?>" alt="Image" class="img-fluid">
+                  <img src="images/products/product_{{$product->product_id}}/<?php try{echo $product->product_image;}catch(Exception $e){} ?>" alt="Image" class="img-fluid">
                   </a>
                   <h2 class="item-title"><a href="/shops?pd=<?php echo $product->product_id; ?>"> <?php echo $product->product_name; ?></a></h2>
                   <strong class="item-price">
@@ -376,6 +385,9 @@
 
            .q-b-wrapper>div:last-child{
              float: right;
+           }
+           .mt-mobile-25{
+            margin-top:25px;
            }
            }
             </style>

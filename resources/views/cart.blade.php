@@ -20,16 +20,17 @@
                 </thead>
                 <tbody>
                   <?php  foreach ($cart as $prod_id => $size_pcs) {
-                  
-                  foreach ($size_pcs as $size => $pcs) {
-                   
                    $product = DB::table('Products')->where('product_id',$prod_id)->first();
-                  ?>
-                  <tr id="<?php echo $product->product_id;?>" size="<?php echo $size;?>">
+                
+                  foreach ($size_pcs as $size => $pcs) {
+                    $size = DB::table('Sizes')->where('size_id',$size)->first();
+                   
+                    ?>
+                  <tr id="<?php echo $product->product_id;?>" size="<?php echo $size->size_id;?>">
                    
                     <td class="product-name">
-                        <img src="images/products/<?php try{echo $product->product_image;}catch(Exception $e){} ?>" alt="Image" class="" style="max-width:300px;">
-                      <h2 class="h5 text-black" style="margin-top:8%;"><a href="/shops?id=<?php echo $prod_id;?>"><?php echo $product->product_name.' '.$size; ?></a></h2>
+                    <img src="images/products/product_{{$product->product_id}}/small/<?php try{echo $product->product_image;}catch(Exception $e){} ?>" alt="Image" class="" style="max-width:300px;">
+                      <h2 class="h5 text-black" style="margin-top:8%;"><a href="/shops?id=<?php echo $prod_id;?>"><?php echo $product->product_name.' '.$size->description; ?></a></h2>
                     </td>
                     <td><?php echo $product->product_price.' Lei'; ?></td>
                     <td>
@@ -61,16 +62,18 @@
                 </thead>
                 <tbody>
                   <?php   foreach ($cart as $prod_id => $size_pcs) {
-                  
-                    foreach ($size_pcs as $size => $pcs) {
-                     
-                     $product = DB::table('Products')->where('product_id',$prod_id)->first(); ?>
-                  <tr id="<?php echo $product->product_id;?>" size="<?php echo $size;?>">
+                   $product = DB::table('Products')->where('product_id',$prod_id)->first(); 
+               
+                    foreach ($size_pcs as $size => $pcs) {  
+                     $size = DB::table('Sizes')->where('size_id',$size)->first();
+                   
+                      ?>
+                       <tr id="<?php echo $product->product_id;?>" size="<?php echo $size->size_id;?>">
                    
                     <td class="product-name">
                       <div>
-                        <img src="images/products/<?php try{echo $product->product_image;}catch(Exception $e){} ?>" alt="Image" class="" style="max-width:300px;">
-                      <h2 class="h5 text-black" style="margin-top:8%;"><a href="/shops?id=<?php echo $prod_id;?>"><?php echo $product->product_name.' '.$size; ?></a> - <?php echo $product->product_price.' Lei'; ?> / buc</h2>
+                      <img src="images/products/product_{{$product->product_id}}/small/<?php try{echo $product->product_image;}catch(Exception $e){} ?>" alt="Image" class="" style="max-width:300px;">
+                      <h2 class="h5 text-black" style="margin-top:8%;"><a href="/shops?id=<?php echo $prod_id;?>"><?php echo $product->product_name.' '.$size->description; ?></a> - <?php echo $product->product_price.' Lei'; ?> / buc</h2>
                       
                      
                     <div>
