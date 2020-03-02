@@ -23,7 +23,9 @@
                    $product = DB::table('Products')->where('product_id',$prod_id)->first();
                 
                   foreach ($size_pcs as $size => $pcs) {
+                    $sz = $size;
                     $size = DB::table('Sizes')->where('size_id',$size)->first();
+                    $ps = DB::table('Product_sizes')->where(["product_id"=>$product->product_id,"size_id"=>$sz])->first();
                    
                     ?>
                   <tr id="<?php echo $product->product_id;?>" size="<?php echo $size->size_id;?>">
@@ -38,7 +40,7 @@
                         <div class="input-group-prepend">
                           <button class="btn btn-outline-primary js-btn-minus" type="button">&minus;</button>
                         </div>
-                        <input type="text" class="form-control text-center pcs" value="<?php echo $pcs;?>" placeholder="" aria-label="Example text with button addon" aria-describedby="button-addon1">
+                        <input type="text" class="form-control text-center pcs" value="<?php echo $pcs;?>" placeholder="" aria-label="Example text with button addon" max_val="{{$ps->Quantity_AV}}" readonly style="background:white;" aria-describedby="button-addon1">
                         <div class="input-group-append">
                           <button class="btn btn-outline-primary js-btn-plus" type="button">&plus;</button>
                         </div>
@@ -65,8 +67,9 @@
                    $product = DB::table('Products')->where('product_id',$prod_id)->first(); 
                
                     foreach ($size_pcs as $size => $pcs) {  
+                      $sz = $size;
                      $size = DB::table('Sizes')->where('size_id',$size)->first();
-                   
+                     $ps = DB::table('Product_sizes')->where(["product_id"=>$product->product_id,"size_id"=>$sz])->first();
                       ?>
                        <tr id="<?php echo $product->product_id;?>" size="<?php echo $size->size_id;?>">
                    
@@ -81,7 +84,7 @@
                         <div class="input-group-prepend">
                           <button class="btn btn-outline-primary js-btn-minus" type="button">&minus;</button>
                         </div>
-                        <input type="text" class="form-control text-center pcs" value="<?php echo $pcs;?>" placeholder="" aria-label="Example text with button addon" aria-describedby="button-addon1">
+                      <input type="text" class="form-control text-center pcs" value="<?php echo $pcs;?>" placeholder="" readonly aria-label="Example text with button addon" aria-describedby="button-addon1" max_val="{{$ps->Quantity_AV}}" style="background:white">
                         <div class="input-group-append">
                           <button class="btn btn-outline-primary js-btn-plus" type="button">&plus;</button>
                         </div>
@@ -160,7 +163,7 @@
 
                 <div class="row">
                   <div class="col-md-12">
-                    <button class="btn btn-primary btn-lg btn-block" onclick="window.location='/checkout'">Proceed To Checkout</button>
+                    <button class="btn btn-primary btn-lg btn-block" onclick="window.location='/billing'">Proceed To Checkout</button>
                   </div>
                 </div>
             </div> <?php } ?>
@@ -178,7 +181,7 @@
         }
 
         .table-wrapper>table{
-        
+        background: white;
         position:relative;
         border-collapse: collapse;
         text-align: center;
@@ -281,10 +284,13 @@
         }) });
         
         $('.pcs').on('change',function(data){
-          console.log(data);
+         // console.log(data);
             if(this.value == 0){
               $(this).val(1);
             }
+
+            if(this.value > $(this).attr("max_val"))
+              $(this).val(this.value-1);
         })
     }
     </script>

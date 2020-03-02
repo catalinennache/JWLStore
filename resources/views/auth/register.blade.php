@@ -36,7 +36,7 @@
              
 
               <div class="form-group">
-                <button class="btn btn-primary btn-lg btn-block register" onclick="">Sign up</button>
+                <button class="btn btn-primary btn-lg btn-block register">Sign up</button>
               </div>
 
               <div class="border p-4 rounded text-center" role="alert">
@@ -51,7 +51,8 @@
     </div>
 
   <script>
-   window.onload = function(){ $('.register').on('click',function(){
+    var callback = function(){
+      console.log(">> ")
         $.ajax({
           type:'POST',
           url:'/register',
@@ -90,7 +91,18 @@
               
           }
         })
-    });}
+    };
+   window.onload = function(){ 
+    window.onkeypress = function(ev){
+      if(ev.keyCode == 13){
+        callback();
+      }
+    }
+    $('.register').on('click',callback);
+
+    console.log("asd"); 
+    
+     }
   </script>
   <style>
     .warn{

@@ -22,7 +22,7 @@ class ProfileController extends Controller
      */
 
     function __construct(){
-       // $this->middleware('auth');
+        $this->middleware('auth');
     }
 
 
@@ -36,6 +36,7 @@ class ProfileController extends Controller
         $user->zip = $req->c_postal_zip;
         $user->state = $req->c_state_country;
         $user->address = $req->c_address;
+        $user->strnr = $req->c_address_nr;
         $user->address_sec = $req->c_address_sec;
         $user->phone_number = $req->c_phone;
         $user->save();
@@ -83,8 +84,9 @@ class ProfileController extends Controller
             $order_items =  DB::table('Order_Items')->where(['order_id'=>$order->order_id,])->get();
             foreach($order_items as $key => $item){
                $product =  DB::table('Products')->where('product_id',$item->product_id)->first();
-               $order_items[$key] = (object) array_merge( (array) $product, (array) $item); 
                
+               $order_items[$key] = (object) array_merge( (array) $product, (array) $item); 
+               $order_items[$key]->size_desc = DB::table('Sizes')->where('size_id',$order_items[$key]->size)->pluck('size')->first();
             }
 
             //Set up the billing details
@@ -99,6 +101,7 @@ class ProfileController extends Controller
         return abort(404,'Page not found.');
         
     }
+
 
     
     function FANTest(Request $req){

@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use App\User;
+use App\Http\Controllers\PaymentController;
 
 use Illuminate\Support\Facades\Auth;
 class ShopController extends Controller
@@ -23,28 +24,100 @@ class ShopController extends Controller
     }
 
     public function index(Request $req){
-        $products = DB::table('Products')->get();
-        return view('originalhome')->with(['products'=>$products]);
+
+        $rw = isset($req->rw)?$req->rw:array();
+        return view('originalhome')->with(['rws'=>$rw]);
     }
 
     public function shop(Request $req)
-    {   $page = $req->page?$req->page:0;
-        $products = DB::table('Products')->skip(9*$page)->take(9)->get();
-        $pages = floor(DB::table('Products')->count()/9)+1;
-        $categories = DB::table('Products')->select('product_type_code')->groupby('product_type_code')->get();
+    {   $page = $req->page>0?$req->page-1:0;
+        $filter = array();
+        $filter_active = $req->cats || $req->prices || $req->tags || $req->sizes; 
        
+        $filter["cats"] = explode(',',$req->cats);
+        $filter["prices"] = explode(',',$req->prices);
+        $filter["tags"] = explode(',',$req->tags);
+        $filter["sizes"] = explode(',',$req->sizes);
+        $filter["sort"] = $req->sort;
+        if($filter_active){
+            $getProdID = function($elem){
+                return $elem->product_id;
+            };
+            $products = DB::table('Product_sizes')->join('Products','Product_sizes.product_id','=','Products.product_id');
+            if($req->cats){
+                if(count($filter["cats"]) != 1){
+                    $products = $products->whereIn('Products.product_type_code',$filter["cats"]);
+                   
+                }else {
+                    $products = $products->where('Products.product_type_code','=',$filter["cats"][0]);
+                }
+            }
+
+            if($req->sizes){
+                $products = $products->whereIn('size_id',$filter["sizes"]);
+            }
+          
+            if($req->prices){
+               $products = $products->whereRaw(' ((Products.product_price > ? and Products.product_price < ? and Products.product_new_price = 0) or (Products.product_new_price > ? and Products.product_price < ?))',[$filter["prices"][0],$filter["prices"][1],$filter["prices"][0],$filter["prices"][1]]);
+            }
+            
+            $products = $products->select('Product_sizes.product_id')->groupby('Product_sizes.product_id')->get()->pluck('product_id');
+          
+            $products = DB::table('Products')->whereIn('product_id',$products);
+          
+            if($req->tags){
+                $products = DB::table('Products_tags')->select('Products.product_id')->whereIn('Products_tags.tag_id',$filter["tags"])->whereIn('Products_tags.product_id',array_map($getProdID,$products->get()->toArray()))->groupby('Products.product_id')
+                ->join('Products','Products.product_id','=','Products_tags.product_id')->get();
+              
+                $products = DB::table('Products')->whereIn('product_id',array_map($getProdID,$products->toArray()));
+            }
+             if(isset($filter["sort"])){
+                if($filter["sort"] == 2)
+                    $products = $products->orderByRaw('product_price ASC')->skip(9*$page)->take(9)->get();
+                else if($filter["sort"] == 1)
+                        $products = $products->orderByRaw('product_price DESC')->skip(9*$page)->take(9)->get();
+                    else
+                        $products = $products->skip(9*$page)->take(9)->get();
+
+             }else{
+              $products = $products->skip(9*$page)->take(9)->get();
+             }
+              $pages = floor($products->count()/9)+1;
+        }else{
+            $products = DB::table('Products')->skip(9*$page)->take(9)->get();
+            $pages = floor(DB::table('Products')->count()/9)+1;
+        }
+         
+        $categories = DB::table('Products')->select('product_type_code')->groupby('product_type_code')->get();
+        
         $cat0 = array();
         foreach($categories as $ct){
-        $cat0[] = DB::table('Ref_Product_Types')->where('product_type_code',$ct->product_type_code)->first();}
-
+        $cat0[] = DB::table('Ref_Product_Types')->where('product_type_code',$ct->product_type_code)->first();
+        
+        }
         $cats = array();
 
         foreach($cat0 as $category){
-           $cats[$category->product_type_category] = DB::table('Products')->where('product_type_code',$category->product_type_code)->count();
+           $cats[$category->product_type_category] = ['count'=>DB::table('Products')->where('product_type_code',$category->product_type_code)->count(),'id'=>$category->product_type_code];
         }
+     
+        $sizes = DB::table('Product_sizes')->select(DB::raw('count(*) as size_count, size_id'))->groupby('size_id')->havingRaw('count(*) > 0')->get();
+        foreach($sizes as $size){
+            $size->description = DB::table('Sizes')->select('description')->where('size_id',$size->size_id)->first()->description;
+            
+        }
+
+        $tags = DB::table('Products_tags')->select(DB::raw('count(*) as tag_count, tag_id'))->groupby('tag_id')->get();
+        foreach($tags as $tag){
+            $tag->name = DB::table('Tags')->select('name')->where('id',$tag->tag_id)->first()->name;
+        }
+
+        
    
-        return view('shop')->with(['products'=>$products,'pages'=>$pages,'active_tab'=>$page,'cats'=>$cats]);
+        return view('shop')->with(['products'=>$products,'pages'=>$pages,'active_tab'=>$page,'cats'=>$cats,'sizes'=>$sizes,'tags'=>$tags,'filters'=>$filter]);
     }
+
+
 
     public function cart(Request $req)
     {    $cart = session('cart_products');
@@ -53,16 +126,39 @@ class ShopController extends Controller
 
     public function shops(Request $req)
     {   
+        if(!isset($req->id)){
+            return abort(404);
+        }
         $products = DB::table('Products')->get();
         $product_id = $req->id;
+        
         $prod = DB::table('Products')->where('product_id',$product_id)->first();
         $prod_sizes = DB::table('Product_sizes')->join('Sizes','Product_sizes.size_id','=','Sizes.size_id')
                                                 ->where('product_id',$product_id)->get();
-     
-        return view('shop-single')->with(['products'=>$products,'prod'=>$prod,'sizes'=>$prod_sizes]);
+        $cat= DB::table('Ref_Product_Types')->where('product_type_code',$prod->product_type_code)->first();
+        $arr = $req->session()->has('recently_viewed')?session('recently_viewed'):array();
+        
+        if(is_array($arr) && !array_search($product_id,$arr)){
+            if(count($arr)>4) 
+                array_pop($arr);
+      
+    
+        }else {
+            $arr2 = array();
+            array_push($arr2,$arr);
+            $arr = $arr2;
+  
+    
+        }
+        $arr[] = $product_id;
+      
+        $req->session()->put('recently_viewed', $arr);
+
+        $rw = isset($req->rw)?$req->rw:array();
+        return view('shop-single')->with(['products'=>$products,'prod'=>$prod,'sizes'=>$prod_sizes,'rws'=>$rw,'cat'=>$cat]);
     }
 
-    
+  
 
     public function about(Request $req)
     {
@@ -71,7 +167,16 @@ class ShopController extends Controller
 
     public function thank(Request $req)
     {
-        return view('thankyou');
+        $allowed_origin = '/checkout';
+        if(isset($_SERVER['HTTP_REFERER'])) {
+            $origin = parse_url($_SERVER['HTTP_REFERER'])['path'];
+            if(substr($origin, 0 - strlen($allowed_origin)) == $allowed_origin) {
+
+            return view('thankyou');
+            }
+        }
+
+        return redirect()->intended('');
     }
 
     public function profile(Request $req){
@@ -104,9 +209,7 @@ class ShopController extends Controller
             return response()->json(['success'=> !!Auth::user()]);
         } else{
             return response()->json(['success'=> !!Auth::user(),'err' => ' user not found ']);
-        }
-
-        
+        } 
     }
     public function delete_user(Request $req){
         Auth::user()->delete();
@@ -133,9 +236,37 @@ class ShopController extends Controller
         return redirect()->intended('');
     }
 
+    public function billing(Request $req){
+
+        $allowed_origins = ['/cart','/checkout','/billing','/billing?'];
+        if(isset($_SERVER['HTTP_REFERER'])) {
+            $origin = parse_url($_SERVER['HTTP_REFERER'])['path'];
+        
+            if(array_search($origin ,$allowed_origins) !== false ) {
+
+                
+                $cart = $req->session()->get('cart_products');
+                $transport = DB::table('Couriers')->get()[0];
+                
+                if($req->session()->has('cart_products') && count($cart)>0){
+                    header("Cache-Control: no-cache, no-store, must-revalidate"); // HTTP 1.1.
+                    header("Pragma: no-cache"); // HTTP 1.0.
+                    header("Expires: 0");
+                    return view('billing')->with(['cart'=>$cart,'transport'=>$transport]);
+                }
+
+            }else{
+                error_log("invalid origin detected ".$origin);
+            }
+        }
+
+        return redirect()->intended('/');
+    }
+
     public function checkout(Request $req)
     {  
-        $allowed_origin = '/cart';
+        
+        $allowed_origin = '/billing';
         if(isset($_SERVER['HTTP_REFERER'])) {
             $origin = parse_url($_SERVER['HTTP_REFERER'])['path'];
             if(substr($origin, 0 - strlen($allowed_origin)) == $allowed_origin) {

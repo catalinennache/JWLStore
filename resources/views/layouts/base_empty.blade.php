@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>Silver Boutiqe</title>
+    <title>Silver Boutique</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
@@ -21,8 +21,37 @@
 
     <link rel="stylesheet" href="css/style.css">
     
-  </head>
-  <body>
+  </head><script>
+    
+    try{
+      window.jqLoaded = new (function(){
+          this.posted =[],
+          this.triggered=false,
+          this.subscribe=function(callback){
+            if(this.triggered == true)
+               callback();
+               else
+            this.posted.push(callback);
+            console.log(">> callback registered ",this.posted);
+          }.bind(this),
+          this.fire=function(){
+            this.triggered = true;
+            for(var i = 0; i<this.posted.length;i++) 
+                this.posted[i]();
+            console.log(">> fired");    
+          }.bind(this)
+        })
+      
+      //document.getElementById('jq').onload = window.jqLoaded.fire;
+    }catch(e){ console.log(e)}
+    </script>
+  <body >
+    <script>
+       var script = document.createElement('script');
+      script.onload =window.jqLoaded.fire;
+      script.src = "js/jquery-3.3.1.min.js";
+      document.body.appendChild(script);
+      </script>
   
   <div class="site-wrap">
     
@@ -51,7 +80,7 @@
         <div class="d-flex align-items-center justify-content-between">
           <div class="logo">
             <div class="site-logo">
-              <a href="/" class="js-logo-clone">Silver Boutiqe</a>
+              <a href="/" class="js-logo-clone">Silver Boutique</a>
             </div>
           </div>
           <div class="main-nav d-none d-lg-block">
@@ -59,20 +88,29 @@
               <ul class="site-menu js-clone-nav d-none d-lg-block">
                   <li><a href="#">Home</a></li>
                   <li class="has-children active">
-                      <a href="/">Catalog</a>
-                      <ul class="dropdown">
-                        <li><a href="#">Menu One</a></li>
-                        <li><a href="#">Menu Two</a></li>
-                        <li><a href="#">Menu Three</a></li>
-                        <li class="has-children">
-                          <a href="#">Sub Menu</a>
-                          <ul class="dropdown">
-                            <li><a href="#">Menu One</a></li>
-                            <li><a href="#">Menu Two</a></li>
-                            <li><a href="#">Menu Three</a></li>
-                          </ul>
-                        </li>
-                      </ul>
+                    @if(!isset($GLOBALS['header_cats'])) <a href="/shop">Catalog</a> @else
+                    <a >Catalog</a>
+                    @endif
+                    @if(isset($GLOBALS['header_cats']))
+                     <ul class="dropdown">
+                      <li><a href="/shop">Toate</a></li>
+                     
+                       @foreach ($GLOBALS['header_cats'] as $id => $category)
+                          <li><a href="/shop?cats={{$id}}">{{$category}}</a></li>
+                       @endforeach
+                   
+                       <!--li><a href="#">Menu Two</a></li>
+                       <li><a href="#">Menu Three</a></li>
+                       <li class="has-children">
+                         <a href="#">Sub Menu</a>
+                         <ul class="dropdown">
+                           <li><a href="#">Menu One</a></li>
+                           <li><a href="#">Menu Two</a></li>
+                           <li><a href="#">Menu Three</a></li>
+                         </ul>
+                       </li-->
+                     </ul>
+                     @endif
                     </li>
                     <li><a href="/contact">Contact</a></li>
                 @if (Auth::user() == null)
@@ -119,7 +157,9 @@
   <script src="js/aos.js"></script>
 
   <script src="js/main.js"></script>
+  @section('scripting')
 
+  @show
     
   </body>
 </html>

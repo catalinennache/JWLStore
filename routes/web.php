@@ -13,14 +13,16 @@
 
 
 
-Route::get('/','ShopController@index');
+Route::get('/','ShopController@index')->middleware('RecentlyVW');
 Route::get('/shop','ShopController@shop');
 
 Route::get('/cart','ShopController@cart');
 
-Route::get('/checkout','ShopController@checkout');
-Route::post('/checkout','PaymentController@ProcessCheckout');
-Route::get('/shops','ShopController@shops');
+//Route::get('/checkout','ShopController@checkout');
+Route::get('/billing','ShopController@billing');
+Route::post('/checkout','PaymentController@ProcessOrder');
+Route::get('/pay','PaymentController@ProcessCheckout')->name('payment.ProcessCheckout');
+Route::get('/shops','ShopController@shops')->middleware('RecentlyVW');
 
 Route::get('/about','ShopController@about');
 
@@ -43,3 +45,11 @@ Route::post('/api/addtocart',"ShopController@addtocart");
 Route::post('/api/removeFromCart',"ShopController@removefromcart");
 Route::post('/api/updateCart',"ShopController@updateCart");
 Route::get('/fan',"ProfileController@FANTest");
+Route::get('/test',"PaymentController@genPDF");
+Route::get('/invoice',"PaymentController@showInvoice");
+Route::get("/fetchCities","PaymentController@fetchC");
+Route::get("/fetchStreets","PaymentController@fetchS");
+Route::get('/preparepayment',"PaymentController@PrePay");
+Route::get('/email',"PaymentController@testEmail");
+Route::get("/inv","PaymentController@inv");
+Route::get('/invoiceDownload',"PaymentController@invoiceDownload");

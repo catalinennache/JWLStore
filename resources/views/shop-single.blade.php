@@ -14,25 +14,25 @@
             </div>
             <div class="mini-gallery"> 
               @if ($prod->product_image2)
-              <a class="md-height bg-white " href="images/products/product_{{$$prod->product_id}}/<?php try{echo $prod->product_image2;}catch(Exception $e){} ?>" data-lightbox="example-1">
+              <a class="md-height bg-white " href="images/products/product_{{$prod->product_id}}/<?php try{echo $prod->product_image2;}catch(Exception $e){} ?>" data-lightbox="example-1">
                 <img src="images/products/product_{{$prod->product_id}}/small/<?php try{echo $prod->product_image2;}catch(Exception $e){} ?>" alt="Image" class="img-fluid">
                   
                 </a>   
                 @endif
-                @if ($prod->product_image2)
-              <a class="md-height bg-white " href="images/products/product_{{$$prod->product_id}}/<?php try{echo $prod->product_image3;}catch(Exception $e){} ?>" data-lightbox="example-1">
+                @if ($prod->product_image3)
+              <a class="md-height bg-white " href="images/products/product_{{$prod->product_id}}/<?php try{echo $prod->product_image3;}catch(Exception $e){} ?>" data-lightbox="example-1">
                 <img src="images/products/product_{{$prod->product_id}}/small/<?php try{echo $prod->product_image3;}catch(Exception $e){} ?>" alt="Image" class="img-fluid">
                   
                 </a>   
                 @endif
-                @if ($prod->product_image2)
-              <a class="md-height bg-white " href="images/products/product_{{$$prod->product_id}}/<?php try{echo $prod->product_image4;}catch(Exception $e){} ?>" data-lightbox="example-1">
+                @if ($prod->product_image4)
+              <a class="md-height bg-white " href="images/products/product_{{$prod->product_id}}/<?php try{echo $prod->product_image4;}catch(Exception $e){} ?>" data-lightbox="example-1">
                 <img src="images/products/product_{{$prod->product_id}}/small/<?php try{echo $prod->product_image4;}catch(Exception $e){} ?>" alt="Image" class="img-fluid">
                   
                 </a>   
                 @endif
-                @if ($prod->product_image4)
-              <a class="md-height bg-white " href="images/products/product_{{$$prod->product_id}}/<?php try{echo $prod->product_image5;}catch(Exception $e){} ?>" data-lightbox="example-1">
+                @if ($prod->product_image5)
+              <a class="md-height bg-white " href="images/products/product_{{$prod->product_id}}/<?php try{echo $prod->product_image5;}catch(Exception $e){} ?>" data-lightbox="example-1">
                 <img src="images/products/product_{{$prod->product_id}}/small/<?php try{echo $prod->product_image5;}catch(Exception $e){} ?>" alt="Image" class="img-fluid">
                   
                 </a>   
@@ -43,7 +43,8 @@
           </div>
           <div class="col-md-6 mt-mobile-25"  >
             <h2 class="text-black"><?php echo $prod->product_name; ?></h2>
-            <p>{{$prod->product_description}}</p>
+          <a href="/shop?cats={{$cat->product_type_code}}">{{$cat->product_type_category}}</a>
+            <p >{{$prod->product_description}}</p>
             
             <p><strong class="text-primary h4"><strong class="item-price">
               <?php if($prod->product_new_price != 0){ ?> <del> <?php echo $prod->product_price; ?></del> <?php } ?>
@@ -59,20 +60,20 @@
             <div class="mb-1 d-inline-block">
              
               <?php $cnt = count($sizes); foreach ($sizes as $size) { ?>
-                <label <?php if($size->Quantity_AV == 0) echo 'disabled'?> for="option-<?php echo $size->size_id; ?>" class="d-inline-block <?php echo 'mr-'.$cnt.' mb-'.$cnt;?> ">
-                  <span class="d-inline-block mr-2" style="top:-2px; position: relative;"><input <?php if($size->Quantity_AV == 0) echo 'title="Aceasta marime nu se afla in stock."'?> type="radio" <?php if($size->Quantity_AV == 0) echo 'disabled'?> id="option-<?php echo $size->size_id; ?>" value="<?php echo $size->size_id; ?>" name="shop-sizes"></span> <span class="d-inline-block text-black"><?php echo $size->description; ?> </span>
+              <label  <?php if($size->Quantity_AV == 0) echo 'disabled'?> for="option-<?php echo $size->size_id; ?>" class="d-inline-block <?php echo 'mr-'.$cnt.' mb-'.$cnt;?> ">
+                  <span class="d-inline-block mr-2" style="top:-2px; position: relative;"><input max_val="{{$size->Quantity_AV}}" <?php if($size->Quantity_AV == 0) echo 'title="Aceasta marime nu se afla in stock."'?> type="radio" <?php if($size->Quantity_AV == 0) echo 'disabled'?> id="option-<?php echo $size->size_id; ?>" value="<?php echo $size->size_id; ?>" name="shop-sizes"></span> <span class="d-inline-block text-black"><?php echo $size->description; ?> </span>
                 </label>
 
               <?php } ?>
                 
             </div>
             <div class="q-b-wrapper">
-            <div class="mb-5">
-              <div class="input-group mb-3" style="max-width: 120px;">
+            <div class="mb-5 ">
+              <div class="input-group mb-3 hdn" style="max-width: 120px;">
               <div class="input-group-prepend">
                 <button class="btn btn-outline-primary js-btn-minus" type="button">&minus;</button>
               </div>
-              <input type="text" class="form-control text-center pcs" value="1" placeholder="" aria-label="Example text with button addon" aria-describedby="button-addon1">
+              <input type="text" class="form-control text-center pcs " value="1" readonly placeholder="" aria-label="Example text with button addon" aria-describedby="button-addon1" style="background:white;">
               <div class="input-group-append">
                 <button class="btn btn-outline-primary js-btn-plus" type="button">&plus;</button>
               </div>
@@ -205,6 +206,7 @@
     </div-->
 
     <div class="site-section">
+      @if(count($rws)>0)
       <div class="container recent">
         <div class="row">
           <div class="title-section text-center mb-5 col-12">
@@ -215,7 +217,7 @@
         <div class="row">
           <div class="col-md-12 block-3">
             <div class="nonloop-block-3 owl-carousel">
-              <?php foreach ($products as $product) { ?>
+              <?php foreach ($rws as $product) { ?>
               <div class="item">
                 <div class="item-entry" style="background:white;">
                   <a href="/shops?id=<?php echo $product->product_id;?>" class="product-item md-height bg-white d-block">
@@ -249,11 +251,46 @@
           </div>
         </div>
       </div>
+      @endif
     </div>
+
+    <style>
+      .pcs{
+        transition: .5s ease;
+      }
+      .hdn{
+        opacity: 0!important;
+      }
+      </style>
     <script>
       window.prodid = "<?php echo $prod->product_id;?>";
+      window.jqLoaded.subscribe(function(ev){
+        $('input[name=shop-sizes]').on('change',function(){
+           $('.pcs').val(1);
+           if($('.pcs').closest(".hdn").hasClass("hdn"))
+                $('.pcs').closest(".hdn").removeClass("hdn");
+        })
+      });
       window.onload = function(){
-        $('input[name=shop-sizes]').on('click',function(ev){
+
+       
+         
+        $('.pcs').on('change',function(data){
+         // console.log(data);
+          if($('input[name=shop-sizes]:checked').val() !== undefined){
+           
+            if(this.value == 0){
+              $(this).val(1);
+            }
+
+            if(this.value > $('input[name=shop-sizes]:checked').attr("max_val"))
+              $(this).val(this.value-1);
+
+          }
+        })
+
+
+        $('input[name=shop-sizes]').closest('label').on('click',function(ev){
           if($('input[name=shop-sizes]:checked').val()){
             $('.buy-now').removeClass('disabled');
           }
@@ -363,6 +400,7 @@
               } .mini-gallery>a{
                 margin:0 10px;
                 transition: .3s ease-out;
+                max-width: 50%;
               }
               .mini-gallery>a:hover{
                 box-shadow: 0px 0px 20px #D2D2D2;

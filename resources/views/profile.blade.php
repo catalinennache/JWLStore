@@ -2,11 +2,12 @@
 
 @section('page_content')
 
-<div class="site-section">
+<div class="site-section bg-white">
         <div class="container">
          
           <div class="row">
             <div class="col-md-12 mb-5 mb-md-0">
+              @if(false){
               <h2 class="h3 mb-3 text-black">Profile Details</h2>
               <div class="p-3 p-lg-5 border frm">
                   <div class="form-group row">
@@ -27,21 +28,47 @@
                 </div>
   
                 <div class="form-group row">
+                
                   <div class="col-md-6">
-                    <label for="c_address" class="text-black">Address <span class="text-danger">*</span></label>
+                    <label for="c_address" class="text-black">Adresa (Strada) <span class="text-danger">*</span></label>
                     <input type="text" class="form-control" id="c_address" name="c_address" placeholder="Street address" value="<?php echo Auth::user()->address;?>">
                   </div>
                   <div class="col-md-6">
-                      <label for="c_address_sec" class="text-black">Address</label>
-                      <input type="text" class="form-control"  id="c_address_sec" name="c_address_sec" placeholder="Apartment, suite, unit etc. (optional)" value="<?php echo Auth::user()->address_sec;?>">
+                    <label for="c_address_nr" class="text-black">Adresa (Numarul) <span class="text-danger">*</span></label>
+                    <input type="number" min="1" class="form-control" id="c_address_nr" name="c_address_nr" placeholder="Numar" value="<?php echo Auth::user()->strnr;?>">
                   </div>
+                  
+                </div>
+
+                <div class="form-group row">
+                  <div class="col-md-12">
+                    <label for="c_address_sec" class="text-black">Adresa (Apartament,Scara,Bloc)</label>
+                    <input type="text" class="form-control"  id="c_address_sec" name="c_address_sec" placeholder="Apartament, Scara, Bloc etc. (optional)" value="<?php echo Auth::user()->address_sec;?>">
+                </div>
                 </div>
   
                 <div class="form-group row">
-                  <div class="col-md-6">
-                    <label for="c_state_country" class="text-black">State<span class="text-danger">*</span></label>
-                    <input type="text" class="form-control" id="c_state_country" name="c_state_country" value="<?php echo Auth::user()->state;?>">
+                
+                  <div class="col-md-6 state_select">
+                    <label for="c_state_country" class="text-black">Judet <span class="text-danger">*</span></label>
+                    <select id="c_state_country" class="form-control" def="<?php echo Auth::user()->state;?>">
+                     @if(!isset(Auth::user()->state)) <option value="1">Selecteaza un judet</option>  @endif   
+                     
+                    </select> 
                   </div>
+                  <script>
+                    document.onreadystatechange = function(ev){
+                          var states = ["Alba","Arad","Argeș","Bacău","Bihor","Bistrița-Năsăud","Botoșani","Brașov","Brăila","Bucuresti","Buzău","Caraș-Severin","Cluj","Constanța","Covasna","Călărași","Dolj","Dâmbovița","Galați","Giurgiu","Gorj","Harghita","Hunedoara","Ialomița","Iași","Ilfov","Maramureș","Mehedinți","Mureș","Neamț","Olt","Prahova","Satu Mare","Sibiu","Suceava","Sălaj","Teleorman","Timiș","Tulcea","Vaslui","Vrancea","Vâlcea"]
+                          var select = $('.state_select select');
+                          states.forEach(function(element,index){
+                            var option = document.createElement('option');
+                            option.value = element;
+                            option.innerText = element;
+                            select[0].appendChild(option);
+                          })
+                          $('.state_select select option[value="'+$('.state_select select').attr('def')+'"]')[0].selected = "selected" ;
+                          }
+                    </script>
                   <div class="col-md-6">
                     <label for="c_postal_zip" class="text-black"> Zip <span class="text-danger">*</span></label>
                     <input type="text" class="form-control" id="c_postal_zip" name="c_postal_zip" value="<?php echo Auth::user()->zip;?>">
@@ -74,6 +101,7 @@
                  
                   </div>
                 </div>
+              }@endif
               </div>
             </div>
 

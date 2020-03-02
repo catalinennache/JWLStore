@@ -160,6 +160,7 @@
     </div>
 
     <div class="site-section">
+      @if(count($rws) > 0)
       <div class="container recent">
         <div class="row">
           <div class="title-section text-center mb-5 col-12">
@@ -170,20 +171,20 @@
         <div class="row">
           <div class="col-md-12 block-3">
             <div class="nonloop-block-3 owl-carousel">
-              <?php foreach ($products as $product) { ?>
+              <?php foreach ($rws as $rw) { ?>
               <div class="item">
                 <div class="item-entry" style="background:white;">
-                  <a href="#" class="product-item md-height bg-white d-block">
-                    <img src="images/products/<?php try{echo $product->product_image;}catch(Exception $e){} ?>" alt="Image" class="img-fluid">
+                  <a href="/shops?id=<?php echo $rw->product_id; ?>" class="product-item md-height bg-white d-block">
+                  <img src="images/products/product_{{$rw->product_id}}/small/<?php try{echo $rw->product_image;}catch(Exception $e){} ?>" alt="Image" class="img-fluid">
                   </a>
-                  <h2 class="item-title"><a href="/shops?pd=<?php echo $product->product_id; ?>"> <?php echo $product->product_name; ?></a></h2>
+                  <h2 class="item-title"><a href="/shops?id=<?php echo $rw->product_id; ?>"> <?php echo $rw->product_name; ?></a></h2>
                   <strong class="item-price">
-                  <?php if($product->product_new_price != 0){ ?> <del> <?php echo $product->product_price; ?></del> <?php } ?>
+                  <?php if($rw->product_new_price != 0){ ?> <del> <?php echo $rw->product_price; ?></del> <?php } ?>
                        <?php
-                       if($product->product_new_price != 0){
-                          echo  $product->product_new_price .' Lei';
+                       if($rw->product_new_price != 0){
+                          echo  $rw->product_new_price .' Lei';
                        }else {
-                          echo $product->product_price.' Lei';
+                          echo $rw->product_price.' Lei';
                         }
                       ?>
                       </strong>
@@ -204,6 +205,7 @@
           </div>
         </div>
       </div>
+      @endif
     </div>
 <style>
   @media screen and (max-width:921px){

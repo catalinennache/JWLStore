@@ -9,6 +9,8 @@
     "license": "MIT",
     "require": {
         "php": "^7.2",
+        "barryvdh/laravel-dompdf": "^0.8.5",
+        "braintree/braintree_php": "^4.6",
         "curier/fancourier": "^1.0",
         "fideloper/proxy": "^4.0",
         "laravel/framework": "^6.0",
