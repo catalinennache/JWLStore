@@ -39,11 +39,16 @@ class ShopController extends Controller
         $filter["tags"] = explode(',',$req->tags);
         $filter["sizes"] = explode(',',$req->sizes);
         $filter["sort"] = $req->sort;
+        //out_of_stock e de fapt in_stock !!!!
+        $out_of_stock = array_unique((array) DB::table('Product_sizes')->join('Products','Product_sizes.product_id','=','Products.product_id')->where('Product_sizes.Quantity_AV','>',0)->select('Product_sizes.product_id')->groupby('Product_sizes.product_id')->get()->pluck('product_id'));
+        $out_of_stock = (array)$out_of_stock[array_keys($out_of_stock)[0]];
+     
         if($filter_active){
             $getProdID = function($elem){
                 return $elem->product_id;
             };
-            $products = DB::table('Product_sizes')->join('Products','Product_sizes.product_id','=','Products.product_id');
+            
+            $products = DB::table('Product_sizes')->join('Products','Product_sizes.product_id','=','Products.product_id')->where('Product_sizes.Quantity_AV','>',0);
             if($req->cats){
                 if(count($filter["cats"]) != 1){
                     $products = $products->whereIn('Products.product_type_code',$filter["cats"]);
@@ -58,34 +63,45 @@ class ShopController extends Controller
             }
           
             if($req->prices){
-               $products = $products->whereRaw(' ((Products.product_price > ? and Products.product_price < ? and Products.product_new_price = 0) or (Products.product_new_price > ? and Products.product_price < ?))',[$filter["prices"][0],$filter["prices"][1],$filter["prices"][0],$filter["prices"][1]]);
+               $products = $products->whereRaw(' ((Products.product_price > ? and Products.product_price < ?) or (Products.product_new_price > ? and Products.product_price < ?))',[$filter["prices"][0],$filter["prices"][1],$filter["prices"][0],$filter["prices"][1]]);
+            
             }
             
             $products = $products->select('Product_sizes.product_id')->groupby('Product_sizes.product_id')->get()->pluck('product_id');
-          
+  
             $products = DB::table('Products')->whereIn('product_id',$products);
-          
+           
             if($req->tags){
                 $products = DB::table('Products_tags')->select('Products.product_id')->whereIn('Products_tags.tag_id',$filter["tags"])->whereIn('Products_tags.product_id',array_map($getProdID,$products->get()->toArray()))->groupby('Products.product_id')
                 ->join('Products','Products.product_id','=','Products_tags.product_id')->get();
               
                 $products = DB::table('Products')->whereIn('product_id',array_map($getProdID,$products->toArray()));
             }
+            //DB::select("select product_id from Product_sizes group by product_id having sum(Quantity_AV) = 0")[0];
+        
              if(isset($filter["sort"])){
                 if($filter["sort"] == 2)
                     $products = $products->orderByRaw('product_price ASC')->skip(9*$page)->take(9)->get();
                 else if($filter["sort"] == 1)
-                        $products = $products->orderByRaw('product_price DESC')->skip(9*$page)->take(9)->get();
+                        $products = $products->whereIn('product_id', (array)$out_of_stock)->orderByRaw('product_price DESC')->skip(9*$page)->take(9)->get();
                     else
-                        $products = $products->skip(9*$page)->take(9)->get();
+                        $products = $products->whereIn('product_id', (array)$out_of_stock)->skip(9*$page)->take(9)->get();
 
              }else{
-              $products = $products->skip(9*$page)->take(9)->get();
+              $products = $products->whereIn('product_id', (array)$out_of_stock)->skip(9*$page)->take(9)->get();
              }
-              $pages = floor($products->count()/9)+1;
+              $pages = floor($products->count()/9);
+              if(!$pages)
+                $pages++;
         }else{
-            $products = DB::table('Products')->skip(9*$page)->take(9)->get();
-            $pages = floor(DB::table('Products')->count()/9)+1;
+           
+            //DB::select("select product_id from Product_sizes group by product_id having sum(Quantity_AV) = 0")[0];
+          
+             
+            $products = DB::table('Products')->whereIn('product_id',$out_of_stock)->skip(9*$page)->take(9)->get();
+            $pages = floor(count($products)/9);
+            if(!$pages)
+            $pages++;
         }
          
         $categories = DB::table('Products')->select('product_type_code')->groupby('product_type_code')->get();
@@ -98,16 +114,24 @@ class ShopController extends Controller
         $cats = array();
 
         foreach($cat0 as $category){
-           $cats[$category->product_type_category] = ['count'=>DB::table('Products')->where('product_type_code',$category->product_type_code)->count(),'id'=>$category->product_type_code];
+          $prds = (DB::table('Products')->where('product_type_code',$category->product_type_code)->get());
+          $prd_ids = array();
+          $count = 0;
+            foreach($prds as $prd)
+                if( DB::table('Product_sizes')->where('product_id',$prd->product_id)->count()>0
+                 && DB::select("select sum(Quantity_AV) as cnt from Product_sizes where product_id = '$prd->product_id' group by product_id")[0]->cnt >0)
+                    $count++;
+                
+           $cats[$category->product_type_category] = ['count'=>$count,'id'=>$category->product_type_code];
         }
      
-        $sizes = DB::table('Product_sizes')->select(DB::raw('count(*) as size_count, size_id'))->groupby('size_id')->havingRaw('count(*) > 0')->get();
+        $sizes = DB::table('Product_sizes')->select(DB::raw('count(*) as size_count, size_id'))->where('Quantity_AV','>',0)->groupby('size_id')->havingRaw('count(*) > 0')->get();
         foreach($sizes as $size){
             $size->description = DB::table('Sizes')->select('description')->where('size_id',$size->size_id)->first()->description;
             
         }
-
-        $tags = DB::table('Products_tags')->select(DB::raw('count(*) as tag_count, tag_id'))->groupby('tag_id')->get();
+     
+        $tags = DB::table('Products_tags')->select(DB::raw('count(*) as tag_count, tag_id'))->whereIn('product_id',$out_of_stock)->groupby('tag_id')->get();
         foreach($tags as $tag){
             $tag->name = DB::table('Tags')->select('name')->where('id',$tag->tag_id)->first()->name;
         }
@@ -233,6 +257,7 @@ class ShopController extends Controller
 
     public function logout(Request $req){
         Auth::logout();
+        $req->session()->forget('SU');
         return redirect()->intended('');
     }
 
@@ -304,7 +329,7 @@ class ShopController extends Controller
             && DB::table('Product_sizes')->where(['product_id'=>$prod_id,'size_id'=>$size])->pluck('Quantity_AV')->first() > 0){
             $arr_cart_products = $req->session()->has('cart_products')?session('cart_products'):array();
             $arr_cart_products[$prod_id] = (isset($arr_cart_products[$prod_id])?$arr_cart_products[$prod_id]:array());
-            $arr_cart_products[$prod_id][$size] = (isset($arr_cart_products[$prod_id][$size])?$arr_cart_products[$prod_id][$size]:0) + $pcs;
+            $arr_cart_products[$prod_id][$size] = (isset($arr_cart_products[$prod_id][$size])?0:0) + $pcs;
             
             $req->session()->put('cart_products', $arr_cart_products);
             return response()->json(['scs'=>true]);

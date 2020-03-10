@@ -50,8 +50,8 @@
                             $size = DB::table('Sizes')->where('size_id',$size)->first()->description;
                        ?> <tr>
                         <td><a href="/shops?id=<?php echo $prod_id;?>"><?php echo $product->product_name.' '.$size;?> <strong class="mx-2">x</strong> <?php echo $pcs; ?></td>
-                        <td><?php echo ($product->product_price*$pcs).' Lei';?> </td>
-                       </tr> <?php $total += $product->product_price*$pcs; }} ?>
+                        <td><?php echo (($product->product_new_price?$product->product_new_price:$product->product_price)*$pcs).' Lei';?> </td>
+                       </tr> <?php $total += (($product->product_new_price?$product->product_new_price:$product->product_price)*$pcs); }} ?>
                        <tr>
                         <td><?php echo $transport->name.' Transport';?></td>
                         <td><?php echo $transport->price.' Lei';?> </td>

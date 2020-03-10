@@ -95,7 +95,7 @@
           <div class="filters-placeholder" style="margin-top:80px;"> </div>
           <div class="col-md-3 order-1 mb-5 mb-md-0 filters bg-gray" style="margin-top:80px;">
             <div class="border p-4 rounded mb-4width sel-container">
-              <h3 class="mb-3 h6 text-uppercase text-black d-block">Categories</h3>
+              <h3 class="mb-3 h6 text-uppercase text-black d-block">Categorii</h3>
               <ul class="list-unstyled mb-0 unselected-cats">
                <?php foreach ($cats as $cat=>$props) { ?>
                 <li class="mb-1 cats" id="cat_<?php echo e($props["id"]); ?>"><a class="d-flex text-black"><span><?php echo e($cat); ?></span> <span class="text-black ml-auto">(<?php echo e($props["count"]); ?>)</span></a></li>
@@ -110,13 +110,13 @@
 
             <div class="border p-4 rounded mb-4 sel-container">
               <div class="mb-4">
-                <h3 class="mb-3 h6 text-uppercase text-black d-block">Filter by Price</h3>
+                <h3 class="mb-3 h6 text-uppercase text-black d-block">Filtreaza dupa pret</h3>
                 <div id="slider-range" class="border-black price-filter"></div>
                 <input type="text" name="text" id="amount" class="form-control border-0 pl-0 bg-white" disabled="" />
               </div>
 
               <div class="mb-4 size-container">
-                <h3 class="mb-3 h6 text-uppercase text-black d-block">Size</h3>
+                <h3 class="mb-3 h6 text-uppercase text-black d-block">Marimi</h3>
                 
                 <?php foreach($sizes as $size){ ?>
                   <label for="s_lg" class="d-flex">
@@ -432,12 +432,16 @@ $('.size-container>label>span').on('click',function(ev){  $(this).siblings().cli
             var selected_sizes  = $('.size-container input:checked').map(function(index,element){return element.id.split('_')[1]}).toArray();
             var price_range = $('#amount').val().split(' - ').map(function(val,index){return val.split(' ')[0]});
            
-            var url = "/shop";
+           var url = "/shop";
+          
            url = add_filter_to_url(url,"page",[$(this).attr('next')]); 
-           url = add_filter_to_url(url,"cats",selected_cats);
-           url = add_filter_to_url(url,"tags",selected_tags);
-           url = add_filter_to_url(url,"sizes",selected_sizes);
-           url = add_filter_to_url(url,"prices",price_range);
+            if(window.location.href.split('?').length > 1 ){
+                url = add_filter_to_url(url,"cats",selected_cats);
+              url = add_filter_to_url(url,"tags",selected_tags);
+              url = add_filter_to_url(url,"sizes",selected_sizes);
+              url = add_filter_to_url(url,"prices",price_range);
+            }
+            console.log(url)
             window.location.href = url;
           })
           </script>

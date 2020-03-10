@@ -14,7 +14,7 @@
               <div class="form-group row">
                 <div class="col-md-12">
                   <input type="text" placeholder="Email" class="form-control" id="email" name="email">
-                  <span class="warn email">The email must be a valid email address.</span>
+                  <span class="warn email">Email-ul trebuie sa fie o adresa valida.</span>
                 </div>
               </div>
 
@@ -27,7 +27,7 @@
               <div class="form-group row">
                 <div class="col-md-12">
                   <input type="password" placeholder="Password Confirm" class="form-control" id="passc" name="password_confirmation">
-                  <span class="warn password">The password must be at least 6 characters long and  match the confirmation.</span>
+                  <span class="warn password">Parola trebuie sa fie de cel putin 6 caractere si sa se potriveasca cu confirmarea.</span>
    
                 </div>
                            
@@ -36,11 +36,11 @@
              
 
               <div class="form-group">
-                <button class="btn btn-primary btn-lg btn-block register">Sign up</button>
+                <button class="btn btn-primary btn-lg btn-block register">Inregistreaza-te</button>
               </div>
 
               <div class="border p-4 rounded text-center" role="alert">
-                Have we met before? <a href="/login">Click here</a> to log in
+                Ne-am mai intalnit? <a href="/login">Apasa aici</a> pentru logare
               </div>
              
             </div>
@@ -61,6 +61,7 @@
                 password_confirmation:$('#passc').val(),
                  _token: "{{ csrf_token() }}",},
           success:function(data){
+            try{
             if(!data.errors){
               window.location.href = '/';
             }else{
@@ -71,9 +72,10 @@
                   });
               });
               //alert(error);
-            }
+            } }catch(e){window.location.reload();}
           },
           error:function(data){
+            try{
             var errors = (data.responseJSON).errors;
             console.log(errors);
             Object.keys(errors).forEach(function(key){
@@ -88,7 +90,7 @@
                     
                     }
             })
-              
+            }catch(e){window.location.reload()}
           }
         })
     };

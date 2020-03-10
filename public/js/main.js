@@ -150,12 +150,12 @@ jQuery(document).ready(function($) {
 	sitePlusMinus();
 
 
-	var siteSliderRange = function() {
+	var siteSliderRange =  function() {
     $( "#slider-range" ).slider({
       range: true,
       min: 0,
       max: 1000,
-      values: [ 25, 700 ],
+      values: [ 25, 1000 ],
       slide: function( event, ui ) {
         $( "#amount" ).val(  ui.values[ 0 ]+" Lei" + " - " + ui.values[ 1 ]+" Lei" );
       }
@@ -163,7 +163,15 @@ jQuery(document).ready(function($) {
     $( "#amount" ).val(  $( "#slider-range" ).slider( "values", 0 )+" Lei" +
       " - " + $( "#slider-range" ).slider( "values", 1 )+" Lei" );
 	};
-	siteSliderRange();
+if(window.jqLoaded && false)
+	window.jqLoaded.subscribe(siteSliderRange);
+	else{
+		document.onreadystatechange = async function(){
+			var scs = false;
+			while(!scs)
+				try{siteSliderRange(); scs = true;} catch(e){console.log(e); await new Promise(function(resolve,rej){setTimeout(function(){resolve(true)},1000)});}
+		}
+	}
 
 
 	var siteMagnificPopup = function() {

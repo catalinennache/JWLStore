@@ -253,6 +253,10 @@
                     <option value="">Selecteza modalitatea plata</option>
                     <option value="1"> Card</option>
                     <option value="2"> Ramburs </option>
+                    @if(Session::get('SU'))
+                      <option value="-1"> Ramburs Gratis (Plata transport la destinatar) </option>
+                      <option value="-2"> Ramburs Gratis (Plata transport la expeditor)</option>
+                      @endif
                 </select>
               </div>
             </div>

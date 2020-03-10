@@ -11,11 +11,11 @@
              <div class="table-wrapper desktop-only"> <table class="table table-bordered ">
                 <thead>
                   <tr>
-                    <th class="product-name">Product</th>
-                    <th class="product-price">Price</th>
-                    <th class="product-quantity">Quantity</th>
+                    <th class="product-name">Produs</th>
+                    <th class="product-price">Pret</th>
+                    <th class="product-quantity">Cantitate</th>
                     <th class="product-total">Total</th>
-                    <th class="product-remove">Remove</th>
+                    <th class="product-remove">Sterge</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -106,7 +106,7 @@
           </form>
         <?php } else { ?>
            <style> .container .row{margin:unset;} </style>
-            <h2> The cart is empty for now, shop on.. </h2>
+            <h2> Cosul este gol... </h2>
         <?php } ?>    
         </div>
 
@@ -115,11 +115,11 @@
             <div class="row mb-5">
               <?php if($cnt > 0) {?>
                 <div class="col-md-6 mb-3 mb-md-0">
-                 <button class="btn btn-primary btn-sm btn-block update-cart">Update Cart</button>
+                 <button class="btn btn-primary btn-sm btn-block update-cart">Actualizeaza cos</button>
                 </div>
               <?php } ?>
               <div class="col-md-6 no-padding-left-desktop" style="">
-                <button class="btn btn-outline-primary btn-sm btn-block" onclick="window.location.href = '/shop'">Continue Shopping</button>
+                <button class="btn btn-outline-primary btn-sm btn-block" onclick="window.location.href = '/shop'">Continua Cumparaturile</button>
               </div>
             </div>
             <!--div class="row">
@@ -163,7 +163,7 @@
 
                 <div class="row">
                   <div class="col-md-12">
-                    <button class="btn btn-primary btn-lg btn-block" onclick="window.location='/billing'">Proceed To Checkout</button>
+                    <button class="btn btn-primary btn-lg btn-block" onclick="window.location='/billing'">Catre Checkout</button>
                   </div>
                 </div>
             </div> <?php } ?>

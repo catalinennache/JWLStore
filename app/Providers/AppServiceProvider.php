@@ -24,9 +24,9 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         \Braintree_Configuration::environment('sandbox');
-        \Braintree_Configuration::merchantId('x3k6xjzfj4hqr5wr');
-        \Braintree_Configuration::publicKey('zzwvcm45v35b8ffd');
-        \Braintree_Configuration::privateKey('fa2b6cf395aefad9fbc1905d249fbef5');
+        \Braintree_Configuration::merchantId('whf3gmyr4j2ycfmh');
+        \Braintree_Configuration::publicKey('4cx4hfp5zvq3hmcg');
+        \Braintree_Configuration::privateKey('a115c0b7ca8f07ebc8bbe40d92bd4dab');
                 //
     }
 }

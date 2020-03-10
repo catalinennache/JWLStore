@@ -4,7 +4,7 @@
 <div class="container">
     <div class="row">
 <div class="col-md-12 p-lg-3" style="margin-top:20px;">
-    <h2 class="h3 mb-3 text-black">Order #<?php echo $order->AWB;?></h2>
+    <h2 class="h3 mb-3 text-black order-number">Order #<?php echo $order->AWB;?></h2>
     <div class="">
       
    <style>
@@ -169,7 +169,7 @@ color: #000 !important;
             </td>
             
             <td>
-                {{$invoice->payment_method==1?"CARD":"RAMBURS"}}
+                {{$invoice->payment_method==1?"CARD":"RAMBURS"}} {{$invoice->payment_method < 0?$invoice->payment_method==-2?"(La exp)":"(La dest)":""}}
             </td>
         </tr>
         
@@ -191,7 +191,7 @@ color: #000 !important;
             </td>
             
             <td>
-               <?php $i++; $total += $oi->product_price; echo $oi->product_price; ?> Lei
+               <?php $i++; $total += $oi->order_item_price; echo $oi->order_item_price; ?> Lei
             </td>
         </tr>
     <?php } ?>
@@ -237,22 +237,22 @@ color: #000 !important;
                  
                   <div class="form-group row">
                     <div class="col-md-6">
-                      <label for="c_fname" class="text-black">First Name <span class="text-danger">*</span></label>
+                      <label for="c_fname" class="text-black">Prenume <span class="text-danger">*</span></label>
                       <input type="text" disabled class="form-control" id="c_fname" name="c_fname" value="<?php echo $shipment->first_name;?>">
                     </div>
                     <div class="col-md-6">
-                      <label for="c_lname" class="text-black">Last Name <span class="text-danger">*</span></label>
+                      <label for="c_lname" class="text-black"> Nume <span class="text-danger">*</span></label>
                       <input type="text" class="form-control" disabled id="c_lname" name="c_lname" value="<?php echo $shipment->last_name;?>">
                     </div>
                   </div>
         
                   <div class="form-group row">
                     <div class="col-md-6">
-                      <label for="c_address" class="text-black">Address <span class="text-danger">*</span></label>
+                      <label for="c_address" class="text-black">Adresa <span class="text-danger">*</span></label>
                       <input type="text" class="form-control" disabled id="c_address" name="c_address" placeholder="Street address" value="<?php echo $shipment->address;?>">
                     </div>
                     <div class="col-md-6">
-                        <label for="c_address" class="text-black">Address</label>
+                        <label for="c_address" class="text-black">Adresa</label>
                         <input type="text" class="form-control"  disabled placeholder="Apartment, suite, unit etc. (optional)" value="<?php echo $shipment->address_sec;?>">
                       </div>
                   </div>
@@ -261,7 +261,7 @@ color: #000 !important;
         
                   <div class="form-group row">
                     <div class="col-md-6">
-                      <label for="c_state_country" class="text-black">State <span class="text-danger">*</span></label>
+                      <label for="c_state_country" class="text-black">Judet <span class="text-danger">*</span></label>
                       <input type="text" class="form-control" disabled id="c_state_country" name="c_state_country" value="<?php echo $shipment->state;?>">
                     </div>
                     <div class="col-md-6">
@@ -272,14 +272,14 @@ color: #000 !important;
         
                   <div class="form-group row mb-5">
                     <div class="col-md-6">
-                      <label for="c_phone" class="text-black">Phone <span class="text-danger">*</span></label>
+                      <label for="c_phone" class="text-black">Telefon <span class="text-danger">*</span></label>
                       <input type="text" class="form-control" disabled id="c_phone" name="c_phone" placeholder="Phone Number" value="<?php echo $shipment->phone_number;?>">
                     </div>
                   </div>
 
                   <div class="form-group row mb-5">
                         <div class="col-md-6">
-                          <label for="c_phone" class="text-black">Delivered by</label>
+                          <label for="c_phone" class="text-black">Livrat de</label>
                           <input type="text" class="form-control" disabled id="c_deliver" name="c_deliver" placeholder="" value="<?php echo $shipment->courier;?>">
                         </div>
                         <div class="col-md-6">
@@ -296,7 +296,7 @@ color: #000 !important;
 
   
 </div>
-
+    </div>
 
 <style>
     .invoice-box{
@@ -317,7 +317,8 @@ color: #000 !important;
   window.onload = function(){
         $('.dld').on('click',function(ev){
             var quality  = 10;
-            var filename  = 'ThisIsYourPDFFilename.pdf';
+            var filename  = 'FacturaSilverB'+$('.order-number')[0].innerText.split('#')[1]+".pdf";
+            
             $('.invoice-box').addClass('downloading');
             setTimeout(function(){
 		    html2canvas($('.invoice-box>table')[0], 

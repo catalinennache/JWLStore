@@ -15,7 +15,8 @@
     <link rel="stylesheet" href="css/jquery-ui.css">
     <link rel="stylesheet" href="css/owl.carousel.min.css">
     <link rel="stylesheet" href="css/owl.theme.default.min.css">
-
+    <script src="js/jquery-3.3.1.min.js"></script>
+  <script src="js/jquery-ui.js"></script>
 
     <link rel="stylesheet" href="css/aos.css">
 
@@ -86,7 +87,7 @@
           <div class="main-nav d-none d-lg-block">
             <nav class="site-navigation text-right text-md-center" role="navigation">
               <ul class="site-menu js-clone-nav d-none d-lg-block">
-                  <li><a href="#">Home</a></li>
+                  <li><a href="/">Home</a></li>
                   <li class="has-children active">
                     @if(!isset($GLOBALS['header_cats'])) <a href="/shop">Catalog</a> @else
                     <a >Catalog</a>
@@ -112,7 +113,7 @@
                      </ul>
                      @endif
                     </li>
-                    <li><a href="/contact">Contact</a></li>
+                   
                 @if (Auth::user() == null)
                 
                 <li><a href="/login" class="icons-btn d-inline-block js ">Login</a></li>
@@ -148,8 +149,8 @@
 
   </div>
 
-  <script src="js/jquery-3.3.1.min.js"></script>
   <script src="js/jquery-ui.js"></script>
+  
   <script src="js/popper.min.js"></script>
   <script src="js/bootstrap.min.js"></script>
   <script src="js/owl.carousel.min.js"></script>

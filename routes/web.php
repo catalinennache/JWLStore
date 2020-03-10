@@ -53,3 +53,14 @@ Route::get('/preparepayment',"PaymentController@PrePay");
 Route::get('/email',"PaymentController@testEmail");
 Route::get("/inv","PaymentController@inv");
 Route::get('/invoiceDownload',"PaymentController@invoiceDownload");
+
+Route::prefix('admin')->group(function () {
+    Route::get('/central','Admin@central');   
+   Route::get('/produse',"Admin@produse");
+   Route::get('/details',"Admin@details");
+   Route::get('/gettags',"Admin@getTags");
+   Route::post('/updateprods',"Admin@updateprods");
+   Route::get("/delprod","Admin@delprod");
+   Route::post('/createprods',"Admin@createprods");
+   Route::get('/superuser','Admin@activateSU');
+});

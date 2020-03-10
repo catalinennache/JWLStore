@@ -110,7 +110,7 @@
                     <div class="p-3 p-lg-3 ">
                       <table class="table site-block-order-table mb-5">
                         <thead>
-                          <th>Delivered Orders</th>
+                          <th>Comenzi livrate</th>
                           <th>Total</th>
                         </thead>
                         <tbody>
@@ -126,14 +126,14 @@
                         <?php }?>
                          
                           <tr>
-                            <td class="text-black font-weight-bold"><strong>Orders Total</strong></td>
+                            <td class="text-black font-weight-bold"><strong>Comenzi Total</strong></td>
                             <td class="text-black font-weight-bold"><strong><?php echo $delivered_total.' Lei'?></strong></td>
                           </tr>
                         </tbody>
                       </table>
                       <table class="table site-block-order-table mb-5">
                             <thead>
-                              <th>Active Orders</th>
+                              <th>Comenzi Active</th>
                               <th>Total</th>
                             </thead>
                             <tbody>
@@ -149,7 +149,7 @@
                              
                               
                               <tr>
-                                <td class="text-black font-weight-bold"><strong>Orders Total</strong></td>
+                                <td class="text-black font-weight-bold"><strong>Comenzi Total</strong></td>
                                 <td class="text-black font-weight-bold"><strong><?php echo $active_total.' Lei'?></strong></td>
                               </tr>
                             </tbody>

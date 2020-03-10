@@ -19,7 +19,7 @@
 
               <div class="form-group row">
                 <div class="col-md-12">
-                  <input type="password" placeholder="Password" class="form-control" id="pass" name="password">
+                  <input type="password" placeholder="Parola" class="form-control" id="pass" name="password">
                 </div>
               </div>
 
@@ -31,14 +31,12 @@
              
 
               <div class="form-group">
-                <button class="btn btn-primary btn-lg btn-block login" onclick="">Log in</button>
+                <button class="btn btn-primary btn-lg btn-block login" onclick="">Intra in cont</button>
               </div>
 
-              <div class="border p-4 rounded text-center" role="alert">
-                Have we met before? <a href="/login">Click here</a> to register
-              </div>
+             
               <div class="p-4 text-center" role="alert">
-                Forgotten password? <a href="/login">Click here</a> to recover
+                Nu ai cont? <a href="/register">Apasa aici</a> pentru inregistrare
               </div>
             </div>
           </div>

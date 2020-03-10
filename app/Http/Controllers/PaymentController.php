@@ -15,6 +15,7 @@ use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Storage;
 use Mail;
+use Session;
 
 use Illuminate\Support\Facades\Auth;
 class PaymentController extends Controller
@@ -75,8 +76,8 @@ class PaymentController extends Controller
         $scs = $scs && ((substr($s_billing->phone_number,0,1) == "+" || is_numeric(substr($s_billing->phone_number,0,1))) && is_numeric(substr($s_billing->phone_number,1)));
         $scs = $scs && ((substr($s_shipping->phone_number,0,1) == "+" || is_numeric(substr($s_shipping->phone_number,0,1))) && is_numeric(substr($s_shipping->phone_number,1)));
      
-        $scs = $scs && ($s_billing->payment_type > 0 && $s_billing->payment_type < 3);
-        $scs = $scs && ($s_shipping->payment_type > 0 && $s_shipping->payment_type < 3);
+        $scs = $scs && (($s_billing->payment_type > 0 && $s_billing->payment_type < 3) || (Session::get("SU")&& $s_billing->payment_type < 0 && $s_billing->payment_type >-3 ));
+        $scs = $scs && (($s_shipping->payment_type > 0 && $s_shipping->payment_type < 3) || (Session::get("SU")&& $s_shipping->payment_type < 0 && $s_shipping->payment_type >-3 ));
 
 
        }
@@ -99,7 +100,7 @@ class PaymentController extends Controller
                 $billing = self::Extract($req,'billing','company','address_sec','other_details','create_account','password');
                 $shipping = self::Extract($req,'shipping','company','address_sec','email','other_details','create_account','password');
                 if(!$billing || !$shipping){
-                    return redirect('/billing?error=1')->with(['error'=>'']);
+                    return redirect('/billing?error=66')->with(['error'=>'']);
                    // return response()->json(['error'=>" validation failed","billing"=>$billing,"shipping"=>$shipping]);
                     //return view('billing')->with(['error'=>'Validation failed for checkout details. Please review them and try again.']);
                 }
@@ -155,14 +156,17 @@ class PaymentController extends Controller
             case 'card':{
                
                // $billing->payment_type = 1;
-                $shipping->payment_type = 1;
+               $shipping->payment_type = $billing->payment_type;
                return self::cardPay($req,$billing,$shipping);
             }break;
             case 'ramburs':{
                // $billing->payment_type = 2;
-                $shipping->payment_type = 2;
+            
+                $shipping->payment_type = $billing->payment_type;
+                
                return self::RambursPay($req,$billing,$shipping);
             }break;
+         
            
             default:{
                 return response()->json(['error'=>'Validation failed for some checkout details. Please review and try again.']);
@@ -242,7 +246,7 @@ class PaymentController extends Controller
                 
 
                 
-                    $message->subject('Thank you for purchasing from us!');
+                    $message->subject('Multumim ca ati cumparat de la noi!');
                 
                    // $message->priority(3);
                 
@@ -309,7 +313,8 @@ class PaymentController extends Controller
          if($invoice !== null){
              // Set up the order details
              $order = DB::table('Orders')->where('order_id',$invoice->order_id)->first();
-         
+             if($order->order_status_code >= 3)
+                    throw new Exception("Comanda inacesibila");
              $order_items =  DB::table('Order_Items')->where(['order_id'=>$order->order_id,])->get();
              foreach($order_items as $key => $item){
                 $product =  DB::table('Products')->where('product_id',$item->product_id)->first();
@@ -398,6 +403,14 @@ class PaymentController extends Controller
             
               //  $message->attach('pathToFile');
             });
+            foreach($billing_data->ordered_prods as $prod){
+                try{
+                $sz = DB::table('Product_sizes')->where(['product_id'=>$prod->product_id,'size_id'=>$prod->size])->first();
+                DB::table('Product_sizes')->where(['product_id'=>$prod->product_id,'size_id'=>$prod->size])->update(['Quantity_AV'=>$sz->Quantity_AV - $prod->cantitate]);
+                }catch(Exception $e){
+                    error_log(">> exception in QT update");
+                }
+            }
         }
         return response()->json(['success'=> $scs,"reason"=>$reason]);
 
@@ -430,7 +443,7 @@ class PaymentController extends Controller
             $order_item[] = $prod->product_id;
             $order_item[] = $order->order_id;
             $order_item[] = 1; //order_item_status_code
-            $order_item[] = $prod->product_new_price?$prod->product_new_price:$prod->product_price;
+            $order_item[] = !(Session::get('SU') && $billing_data->payment_type <0)? $prod->product_new_price?$prod->product_new_price:$prod->product_price:0;
           for($j=0;$j<$prod->cantitate;$j++){  
            $id =  DB::table('Order_Items')->insertGetId([
                 'product_id'=>$order_item[0],
@@ -477,10 +490,22 @@ class PaymentController extends Controller
       $arr =  explode(",",$shipping->address);
      // $tip_serviciu = $billing->payment_type == 1?'cont colector':'standard';
       $plata_la = $billing->payment_type == 1? "expeditor":"destinatar";
-       
-        if($billing->payment_type != 1 && $billing->payment_type != 2)
+      error_log($billing->payment_type." payment type "); 
+
+        if($billing->payment_type > 2 || ($billing->payment_type <0 && !Session::get("SU")))
             throw new \Exception("payment_type not recognized");
 
+    $de_plata = $billing->total;
+      if($billing->payment_type == -1 && Session::get("SU")){
+            $plata_la = "destinatar";
+      }
+      if($billing->payment_type == -2 && Session::get("SU")){
+            $plata_la = "expeditor";   
+      }
+      if($billing->payment_type < 0 && Session::get("SU")){
+        $de_plata = 0;
+      }
+            
       $params = [
         'username' => 'clienttest',
         'user_pass' => 'testing',
@@ -498,7 +523,7 @@ class PaymentController extends Controller
         'lungime' => 1,
         'latime' => 1,
         'inaltime' => 1,
-        'val_decl' => $billing->total,
+        'val_decl' => $de_plata,
         'plata_ramburs' => $plata_la // destinatar or expeditor
       ];
 
@@ -570,14 +595,25 @@ class PaymentController extends Controller
           $judet = explode(",",$shipping->address)[0];
           $localitate = explode(",",$shipping->address)[1];
           $strada = explode(",",$shipping->address)[2];
-
+          $de_plata = $order->total;
+          if($shipping->payment_type == -1 && Session::get("SU")){
+                $plata_la = "destinatar";
+          }
+          if($shipping->payment_type == -2 && Session::get("SU")){
+                $plata_la = "expeditor";   
+          }
+          if($shipping->payment_type < 0 && Session::get("SU")){
+            $de_plata = 0;
+          }
+              
           $item1 = csvItem::newItem();
           $item1->setItem('tip', "standard");
           $item1->setItems(['localitate' => "$localitate", 'judet' => "$judet", 'strada' => "$strada"]);
           $item1->setItems(['telefon' => $shipping->phone_number,]);
           $item1->setItems(['nume_destinatar' => $shipping->first_name." ".$shipping->last_name, 'plata_expeditii' => "$plata_la"]);
           $item1->setItems(['greutate' => '1', 'nr_colet' => 1]);
-          $item1->setItems(['continut'=>'Ceva']);
+          $item1->setItems(['continut'=>'Bijuterii']);
+          $item1->setItems(['val_decl'=>"$de_plata"]);
           $endpoint->addNewItem($item1);        
           $params['fisier'] = $endpoint->getFile();
           $endpoint->setParams($params);
@@ -643,7 +679,7 @@ class PaymentController extends Controller
                         
                         $product->cantitate = $ct;
                       
-                        $billing->total += ($product->product_new_price?$product->product_new_price:$product->product_price*$product_ids_qt[$product->product_id][$sz]) ;
+                        $billing->total += $billing->payment_type>0?($product->product_new_price?$product->product_new_price:$product->product_price*$product_ids_qt[$product->product_id][$sz]):0 ;
                         $billing->ordered_prods[] = $product;
                        
                     }
@@ -652,13 +688,16 @@ class PaymentController extends Controller
                 }
                error_log("before count check".count($billing->ordered_prods)." != ".count($product_ids));
                
-                if(count($billing->ordered_prods) != count($product_ids))
+               /* if(count($billing->ordered_prods) != count($product_ids)){
+                    error_log("returning false on count billing");
                     return false;
+                }*/
           
                 foreach($billing as $key=>$prop){
                 
-                    if(array_search($key,$null_allowed_fields) === false && !$prop ){
+                    if(array_search($key,$null_allowed_fields) === false && (!$prop && $prop != "total") ){
                        error_log($key." ".$prop);
+                       error_log("returning false on null fields checking billing");
                         return false;
                     }
                 }
@@ -691,12 +730,16 @@ class PaymentController extends Controller
                     }
 
                  
-                    if(count($shipping->ordered_prods) != count($product_ids))
+                 /*   if(count($shipping->ordered_prods) != count($product_ids)){
+                        error_log("returning false on count check shipping");
                         return false;
+                    }    */
                     
                     foreach($shipping as $key=>$prop){
                         if(array_search($key,$null_allowed_fields) === false && !$prop ){
                             error_log($key." ".$prop);
+
+                        error_log("returning false on null check shipping");
                             return false;
                         }
                     }

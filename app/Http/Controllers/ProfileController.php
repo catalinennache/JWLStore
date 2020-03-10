@@ -59,6 +59,10 @@ class ProfileController extends Controller
             for($i = 0; $i<count($order_items); $i++){
                 $active->total = $active->total + $order_items[$i];
             }
+           try{ $active->total += DB::table('Shipments')->where('order_id',$active->order_id)->first()->shipping_price;
+           }catch(\Exception $e){
+            
+           }
         }
         $delivered_orders = DB::table('Orders')->where(['customer_id'=>$user->customer_id,'order_status_code'=>2])->get(); //delivered orders
         foreach($delivered_orders as $delivered){
@@ -67,6 +71,8 @@ class ProfileController extends Controller
             for($i = 0; $i<count($order_items); $i++){
                 $delivered->total = $delivered->total + $order_items[$i];
             }
+         try{    $delivered->total += DB::table('Shipments')->where('order_id',$delivered->order_id)->first()->shipping_price;
+         }catch(\Exception $e){}
         }
 
         
@@ -81,6 +87,8 @@ class ProfileController extends Controller
         $order = DB::table('Orders')->where('AWB',strtoupper($order_awb))->first();
         if($order !== null && $user->customer_id === $order->customer_id){
             // Set up the order details
+            if($order->order_status_code >= 3)
+                return abort(404,'Page not found.');
             $order_items =  DB::table('Order_Items')->where(['order_id'=>$order->order_id,])->get();
             foreach($order_items as $key => $item){
                $product =  DB::table('Products')->where('product_id',$item->product_id)->first();

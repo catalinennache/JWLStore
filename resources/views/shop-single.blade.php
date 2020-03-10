@@ -221,7 +221,7 @@
               <div class="item">
                 <div class="item-entry" style="background:white;">
                   <a href="/shops?id=<?php echo $product->product_id;?>" class="product-item md-height bg-white d-block">
-                  <img src="images/products/product_{{$product->product_id}}/<?php try{echo $product->product_image;}catch(Exception $e){} ?>" alt="Image" class="img-fluid">
+                  <img src="images/products/product_{{$product->product_id}}/small/<?php try{echo $product->product_image;}catch(Exception $e){} ?>" alt="Image" class="img-fluid">
                   </a>
                   <h2 class="item-title"><a href="/shops?pd=<?php echo $product->product_id; ?>"> <?php echo $product->product_name; ?></a></h2>
                   <strong class="item-price">
@@ -271,7 +271,7 @@
                 $('.pcs').closest(".hdn").removeClass("hdn");
         })
       });
-      window.onload = function(){
+      window.jqLoaded.subscribe(function(){
 
        
          
@@ -282,8 +282,8 @@
             if(this.value == 0){
               $(this).val(1);
             }
-
-            if(this.value > $('input[name=shop-sizes]:checked').attr("max_val"))
+            console.log($('input[name=shop-sizes]:checked').attr("max_val"),this.value);
+            if(this.value > parseInt($('input[name=shop-sizes]:checked').attr("max_val")))
               $(this).val(this.value-1);
 
           }
@@ -329,7 +329,7 @@
         lightbx.src="/js/lightbox.min.js";
         document.body.appendChild(lightbx);
         lightbx.onload = function(){ lightbox.option({alwaysShowNavOnTouchDevices:true})}
-      }
+      });
 
 
       </script>
